@@ -27,7 +27,5 @@ services:
       - "3000"
     environment:
       - GEMINI_API_KEY=${GEMINI_API_KEY}
-    devices:
-      - /dev/video0:/dev/video0
     volumes:
       - ./outputs:/app/outputs

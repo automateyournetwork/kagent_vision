@@ -35,7 +35,7 @@ Veo3, and interpret American Sign Language.
 ## Nano Banana (AI Image Generation)
 - **banana_generate(prompt, input_paths, out_dir, model, n)** -- Generate AI image(s)
   from a text prompt, optionally guided by input image(s).
-  Default model: gemini-2.5-flash-image-preview.
+  Default model: gemini-3-pro-image-preview.
   Use cases: style transforms, poster mockups, cinematic selfies, sketch variations.
 
 ## Veo3 (AI Video Generation)

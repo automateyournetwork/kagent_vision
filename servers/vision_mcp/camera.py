@@ -161,7 +161,7 @@ def vision_status() -> dict[str, Any]:
 
 
 def vision_capture(
-    save_dir: str = "~/.vision_frames",
+    save_dir: str = "outputs",
     format: str = "jpg",
 ) -> dict[str, Any]:
     """Capture one frame. Saves to save_dir and returns the saved path and metadata."""
@@ -195,7 +195,7 @@ def vision_capture(
 def vision_burst(
     n: int = 8,
     period_ms: int = 150,
-    save_dir: str = ".",
+    save_dir: str = "outputs",
     format: str = "jpg",
     warmup: int = 3,
     duration_ms: int = 0,

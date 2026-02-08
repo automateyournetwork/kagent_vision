@@ -1,0 +1,24 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Environment / secrets
+.env
+
+# Generated outputs (photos, images, videos)
+outputs/
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.mp4
+
+# ADK
+.adk/
+
+# OS
+.DS_Store

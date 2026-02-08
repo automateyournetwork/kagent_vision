@@ -13,7 +13,7 @@ log = logging.getLogger("vision_mcp.veo")
 def veo_generate_video(
     prompt: str,
     negative_prompt: str = "",
-    out_dir: str = ".",
+    out_dir: str = "outputs",
     model: str = "veo-3.1-generate-preview",
     image_path: str | None = None,
     aspect_ratio: str | None = None,

@@ -3,9 +3,14 @@ MCP tool wiring for KAgent Vision.
 
 Connects the agent to the Vision MCP server which provides camera control,
 image generation, video generation, and ASL interpretation tools.
+
+Set MCP_LOCAL=1 to use stdio mode (spawns the MCP server as a subprocess).
+This is required on macOS for webcam access since Docker can't pass through
+the camera device.
 """
 
 import os
+import sys
 import re
 from typing import List, Optional, Union
 
@@ -31,6 +36,10 @@ def _resolve_env_vars(value: str) -> str:
     return re.sub(r"\$\{([^}]+)\}", replace_var, value)
 
 
+def _is_local_mode() -> bool:
+    return os.environ.get("MCP_LOCAL", "").strip() in ("1", "true", "yes")
+
+
 def get_mcp_tools(
     server_names: Optional[List[str]] = None,
     server_filters: Optional[dict] = None,
@@ -52,20 +61,11 @@ def get_mcp_tools(
     if server_names is not None:
         servers = [s for s in servers if s.get("name") in server_names]
 
+    local = _is_local_mode()
+
     toolsets = []
     for server in servers:
         server_name = server["name"]
-
-        # command-type servers run as docker-compose services on port 3000
-        if server["type"] == "command":
-            url = f"http://{server_name}:3000/mcp"
-        else:
-            url = server.get("url", "")
-
-        headers = {}
-        if "headers" in server and server["headers"]:
-            for key, value in server["headers"].items():
-                headers[key] = _resolve_env_vars(value)
 
         predicate = None
         if server_filters and server_name in server_filters:
@@ -73,12 +73,40 @@ def get_mcp_tools(
         elif global_filter is not None:
             predicate = global_filter
 
-        if headers:
-            connection_params = StreamableHTTPConnectionParams(
-                url=url, headers=headers
+        if local and server["type"] == "command":
+            # Stdio mode: spawn MCP server as a subprocess for direct
+            # hardware access (webcam, etc.)
+            from google.adk.tools.mcp_tool.mcp_session_manager import (
+                StdioConnectionParams,
+            )
+            from mcp import StdioServerParameters
+
+            connection_params = StdioConnectionParams(
+                server_params=StdioServerParameters(
+                    command=sys.executable,
+                    args=["-m", "vision_mcp"],
+                    env={**os.environ},
+                ),
+                timeout=600,
             )
         else:
-            connection_params = StreamableHTTPConnectionParams(url=url)
+            # HTTP mode: connect to docker-compose service
+            if server["type"] == "command":
+                url = f"http://{server_name}:3000/mcp"
+            else:
+                url = server.get("url", "")
+
+            headers = {}
+            if "headers" in server and server["headers"]:
+                for key, value in server["headers"].items():
+                    headers[key] = _resolve_env_vars(value)
+
+            if headers:
+                connection_params = StreamableHTTPConnectionParams(
+                    url=url, headers=headers
+                )
+            else:
+                connection_params = StreamableHTTPConnectionParams(url=url)
 
         if predicate is not None:
             toolsets.append(

@@ -13,8 +13,8 @@ log = logging.getLogger("vision_mcp.banana")
 def banana_generate(
     prompt: str,
     input_paths: list[str] | None = None,
-    out_dir: str = ".",
-    model: str = "gemini-2.5-flash-image-preview",
+    out_dir: str = "outputs",
+    model: str = "gemini-3-pro-image-preview",
     n: int = 1,
 ) -> dict[str, Any]:
     """Generate image(s) from a text prompt, optionally guided by input image(s).
@@ -63,19 +63,23 @@ def banana_generate(
     file_index = 0
 
     try:
-        stream = client.models.generate_content_stream(
+        response = client.models.generate_content(
             model=model, contents=contents, config=config
         )
-        for chunk in stream:
-            cand = getattr(chunk, "candidates", None)
-            if not cand or not cand[0].content or not cand[0].content.parts:
-                continue
+    except Exception as e:
+        return {"ok": False, "error": f"Generation failed: {e}"}
 
-            part = cand[0].content.parts[0]
+    # Extract images and text from response parts
+    cands = getattr(response, "candidates", []) or []
+    for cand in cands:
+        if not cand.content or not cand.content.parts:
+            continue
+        for part in cand.content.parts:
+            # Check for text
+            if getattr(part, "text", None):
+                texts.append(part.text)
 
-            if getattr(chunk, "text", None):
-                texts.append(chunk.text)
-
+            # Check for inline image data
             inline = getattr(part, "inline_data", None)
             if inline and getattr(inline, "data", None):
                 mt = getattr(inline, "mime_type", "image/png")
@@ -90,15 +94,19 @@ def banana_generate(
                         f.write(inline.data)
                     saved.append(str(fpath))
                     log.info("Banana saved: %s", fpath)
-                    if n > 0 and len(saved) >= n:
-                        break
                 except Exception as e:
                     return {
                         "ok": False,
                         "error": f"Failed to save generated image: {e}",
                     }
-    except Exception as e:
-        return {"ok": False, "error": f"Generation failed: {e}"}
+
+    if not saved:
+        return {
+            "ok": False,
+            "error": "Model returned no images. It may have returned text only.",
+            "text": "\n".join(texts).strip() if texts else "",
+            "model": model,
+        }
 
     return {
         "ok": True,
