@@ -1,0 +1,12 @@
+agentName: kagent-vision
+language: python
+framework: adk
+modelProvider: gemini
+modelName: gemini-2.0-flash
+description: "AI-powered vision agent: webcam capture, Nano Banana image transformation, Veo3 video generation, and ASL interpretation"
+mcpServers:
+  - type: command
+    name: vision-mcp
+    build: ./servers
+    env:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}

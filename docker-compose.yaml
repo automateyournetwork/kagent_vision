@@ -1,0 +1,33 @@
+services:
+  kagent-vision:
+    image: localhost:5001/kagent-vision:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["kagent_vision", "--local"]
+    ports:
+      - "8080:8080"
+    environment:
+      - AGENT_NAME=kagent-vision
+      - MODEL_PROVIDER=gemini
+      - MODEL_NAME=gemini-2.0-flash
+      - KAGENT_URL=${KAGENT_URL:-http://localhost:8083}
+      - KAGENT_NAME=kagent-vision
+      - KAGENT_NAMESPACE=${KAGENT_NAMESPACE:-kagent}
+      - GOOGLE_API_KEY=${GEMINI_API_KEY}
+    volumes:
+      - ./outputs:/app/outputs
+
+  vision-mcp:
+    image: localhost:5001/kagent-vision-mcp:latest
+    build:
+      context: ./servers
+      dockerfile: Dockerfile
+    expose:
+      - "3000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    devices:
+      - /dev/video0:/dev/video0
+    volumes:
+      - ./outputs:/app/outputs

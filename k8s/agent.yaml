@@ -1,0 +1,17 @@
+apiVersion: kagent.dev/v1alpha2
+kind: Agent
+metadata:
+  name: kagent-vision
+  namespace: kagent
+spec:
+  description: "AI-powered vision agent: webcam capture, Nano Banana image transformation, Veo3 video generation, and ASL interpretation"
+  type: BYO
+  byo:
+    deployment:
+      image: localhost:5001/kagent-vision:latest
+      env:
+        - name: GOOGLE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kagent-gemini
+              key: GOOGLE_API_KEY

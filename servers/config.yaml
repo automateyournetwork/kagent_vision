@@ -1,0 +1,22 @@
+binds:
+- port: 3000
+  listeners:
+  - routes:
+    - policies:
+        cors:
+          allowOrigins: ["*"]
+          allowHeaders:
+            - mcp-protocol-version
+            - content-type
+            - cache-control
+      backends:
+      - mcp:
+          targets:
+          - name: vision-mcp
+            stdio:
+              cmd: uv
+              args: ["run", "python", "-m", "vision_mcp"]
+      matches:
+      - path:
+          pathPrefix: /mcp
+      name: mcp

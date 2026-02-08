@@ -1,0 +1,43 @@
+{
+  "name": "kagent-vision",
+  "description": "AI-powered vision agent: webcam capture, Nano Banana image transformation, Veo3 video generation, and ASL interpretation",
+  "url": "localhost:8080",
+  "version": "1.0.0",
+  "capabilities": {
+    "streaming": true
+  },
+  "defaultInputModes": ["text"],
+  "defaultOutputModes": ["text"],
+  "skills": [
+    {
+      "id": "camera",
+      "name": "Camera Control",
+      "description": "Detect, open, configure, and capture from webcams or connected cameras (iPhone, USB)",
+      "tags": ["camera", "webcam", "capture", "photo"]
+    },
+    {
+      "id": "image-files",
+      "name": "Image Detection",
+      "description": "Scan directories for existing image files to use as input",
+      "tags": ["files", "images", "directory"]
+    },
+    {
+      "id": "banana",
+      "name": "Nano Banana",
+      "description": "AI image generation and transformation using Gemini Image Generation API",
+      "tags": ["image", "generation", "transform", "banana", "ai"]
+    },
+    {
+      "id": "veo",
+      "name": "Veo3 Video",
+      "description": "Generate 8-second AI video clips from text prompts or images using Veo 3",
+      "tags": ["video", "veo3", "animation", "mp4"]
+    },
+    {
+      "id": "asl",
+      "name": "ASL Interpreter",
+      "description": "American Sign Language understanding, transcription, and ASL gloss response generation",
+      "tags": ["asl", "accessibility", "sign-language", "interpreter"]
+    }
+  ]
+}

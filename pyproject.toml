@@ -1,0 +1,14 @@
+[project]
+name = "kagent-vision"
+version = "1.0.0"
+description = "KAgent Vision: webcam capture, Nano Banana image transformation, Veo3 video generation, and ASL interpretation"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.11"
+dependencies = [
+    "google-adk>=1.8.0",
+]
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"

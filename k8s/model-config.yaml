@@ -1,0 +1,11 @@
+apiVersion: kagent.dev/v1alpha2
+kind: ModelConfig
+metadata:
+  name: gemini-vision-config
+  namespace: kagent
+spec:
+  apiKeySecret: kagent-gemini
+  apiKeySecretKey: GOOGLE_API_KEY
+  model: gemini-2.0-flash
+  provider: Gemini
+  gemini: {}

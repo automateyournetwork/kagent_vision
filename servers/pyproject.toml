@@ -1,0 +1,17 @@
+[project]
+name = "kagent-vision-mcp"
+version = "1.0.0"
+description = "KAgent Vision MCP Server: camera control, image generation, video generation, ASL interpretation"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp>=1.0.0",
+    "fastmcp>=0.1.0",
+    "opencv-python-headless>=4.8.0",
+    "pillow>=10.0.0",
+    "numpy>=1.24.0",
+    "google-genai>=0.5.0",
+]
+
+[build-system]
+requires = ["setuptools>=75.0"]
+build-backend = "setuptools.build_meta"
