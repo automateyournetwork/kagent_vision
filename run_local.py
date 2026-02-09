@@ -19,8 +19,8 @@ import time
 
 import httpx
 import uvicorn
-from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi import FastAPI, Request, UploadFile, File
+from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 ADK_PORT = 8080
@@ -91,6 +91,20 @@ app.mount("/outputs", StaticFiles(directory=OUTPUTS_DIR), name="outputs")
 @app.get("/")
 async def serve_ui():
     return FileResponse(os.path.join(STATIC_DIR, "index.html"))
+
+
+@app.post("/upload")
+async def upload_image(file: UploadFile = File(...)):
+    """Save an uploaded image to outputs/ and return its path."""
+    ts = time.strftime("%Y%m%d_%H%M%S")
+    ms = int((time.time() % 1) * 1000)
+    ext = os.path.splitext(file.filename or "image.jpg")[1] or ".jpg"
+    fname = f"upload_{ts}_{ms:03d}{ext}"
+    fpath = os.path.join(OUTPUTS_DIR, fname)
+    contents = await file.read()
+    with open(fpath, "wb") as f:
+        f.write(contents)
+    return JSONResponse({"ok": True, "path": f"outputs/{fname}", "filename": fname})
 
 
 @app.api_route("/api/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH"])
