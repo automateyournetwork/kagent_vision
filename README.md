@@ -1,36 +1,46 @@
 # KAgent Vision
 
-An AI-powered vision agent that captures photos from your webcam, transforms them into artwork with Nano Banana, animates them into video clips with Veo3, and interprets American Sign Language.
+An AI-powered vision agent that captures photos from your webcam (or uploaded images), transforms them into artwork with Nano Banana, animates them into video clips with Veo3, and interprets American Sign Language.
 
-Built with Google ADK and MCP. Includes a custom web UI for demo and development.
+Built with Google ADK and MCP for the [AI / MCP Hackathon](https://aihackathon.dev/). Includes a custom web UI.
 
 ## What It Does
 
 KAgent Vision chains together four capabilities:
 
 1. **Camera Control** -- Detect, open, and capture from webcams (including iPhone Continuity cameras)
-2. **Nano Banana** -- Transform captures into AI-generated artwork via Gemini 3 Pro Image
-3. **Veo3 Video** -- Animate images into ~8 second AI video clips via Veo 3.1
-4. **ASL Interpreter** -- Understand American Sign Language from frame sequences, respond in ASL gloss
+2. **Nano Banana** -- Transform captures into AI-generated artwork via Gemini 3 Pro Image (20+ styles)
+3. **Veo3 Video** -- Animate images into ~8 second AI video clips via Veo 3.1 (15+ effects)
+4. **ASL Conversation** -- Sign in ASL via your webcam and the agent replies in natural language
+
+You can also **upload any image** instead of using a webcam.
 
 ```
-Webcam --> Capture --> Nano Banana (AI Image) --> Veo3 (AI Video)
-  |
-  +--> ASL Burst --> ASL Understand --> Transcript + Reply + Gloss
+Webcam / Upload --> Capture --> Nano Banana (AI Image) --> Veo3 (AI Video)
+       |
+       +--> ASL Burst --> ASL Understand --> Transcript + Reply + Gloss
 ```
 
-All outputs (photos, generated images, videos) are saved to the `outputs/` directory.
+All outputs (photos, generated images, videos) are saved to the `outputs/` directory and displayed inline in the chat.
+
+## Requirements
+
+- **Python 3.11+** (3.12 recommended)
+- **Google AI API key** with access to Gemini 3 Pro Image, Veo 3.1, and Gemini 2.0 Flash (a paid plan or credits may be required)
+- **Webcam** (optional -- you can upload images instead)
 
 ## Quick Start
 
-### 1. Clone and set up the virtual environment
+### 1. Clone and create virtual environment
 
 ```bash
 git clone https://github.com/automateyournetwork/kagent_vision.git
 cd kagent_vision
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 ```
+
+> **Note:** You must use Python 3.11 or higher. If `python3.12` is not available, use `python3.11` or `python3` (check with `python3 --version`).
 
 ### 2. Install dependencies
 
@@ -42,16 +52,11 @@ pip install -e servers/
 
 ### 3. Set your Gemini API key
 
+Get a key at [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+
 ```bash
 export GEMINI_API_KEY="your-google-api-key-here"
 ```
-
-You need a Google AI API key with access to:
-- **Gemini 3 Pro Image Preview** (Nano Banana image generation)
-- **Veo 3.1 Generate Preview** (video generation)
-- **Gemini 2.0 Flash** (agent reasoning + ASL understanding)
-
-Get a key at [https://aistudio.google.com/apikey](https://aistudio.google.com/apikey)
 
 ### 4. Launch
 
@@ -59,28 +64,12 @@ Get a key at [https://aistudio.google.com/apikey](https://aistudio.google.com/ap
 GOOGLE_API_KEY="$GEMINI_API_KEY" python run_local.py
 ```
 
-Open **http://localhost:5001** in your browser.
+Open **http://localhost:5001** in your browser. That's it.
 
-That's it. The launcher starts everything automatically:
+The launcher starts everything automatically:
 - ADK api_server on port 8080 (backend)
 - Custom web UI on port 5001 (frontend)
 - MCP vision server as a subprocess (camera + AI tools)
-
-## How It Works
-
-`run_local.py` is a FastAPI app that:
-1. Spawns the ADK api_server as a subprocess with `MCP_LOCAL=1` (enables direct webcam access)
-2. Waits for the ADK server to be ready
-3. Serves the custom web UI at `/`
-4. Proxies all API calls (`/api/*`) to the ADK backend, including SSE streaming
-5. Serves generated files from `/outputs/`
-
-The web UI (`static/index.html`) is a single-file app using Tailwind CSS with:
-- Camera controls (detect, select, open)
-- Quick action buttons for common workflows
-- Chat interface with SSE streaming
-- Inline display of generated images and videos
-- Tool call indicators showing when the agent is calling AI tools
 
 ## Using the Web UI
 
@@ -90,27 +79,53 @@ The web UI (`static/index.html`) is a single-file app using Tailwind CSS with:
 2. Select a camera from the dropdown
 3. Click **Open** to start the camera
 
-### Quick Actions
+### Capture / Upload
 
-| Button | What it does |
-|--------|-------------|
-| Take a photo | Captures a frame and saves to `outputs/` |
-| Cyberpunk art | Transforms your latest photo into cyberpunk digital art |
-| Watercolor | Transforms your latest photo into a watercolor painting |
-| Make a video | Creates a short AI video from your latest image |
-| Read ASL | Captures frames and interprets ASL signing |
-| Stop camera | Releases the camera |
+- **Take a Photo** -- captures a frame from your webcam
+- **Upload Image** -- upload any image from your computer
 
-### Chat
+### Nano Banana (20+ styles)
 
-Type any message in the input bar. The agent understands natural language and will pick the right tools. Examples:
+Pick a style from the dropdown and click **Generate**:
+
+Cyberpunk, Watercolor, Van Gogh, Pixar 3D, Anime, Comic Book, Pencil Sketch, Synthwave, Renaissance, Pop Art, Studio Ghibli, Vintage Poster, Stained Glass, Low-Poly, Surrealist, Pixel Art, Japanese Woodblock, Gothic Fantasy, Line Art, Cinematic Movie Still
+
+### Veo3 Video (15+ effects)
+
+Pick an effect from the dropdown and click **Generate**:
+
+Gentle Camera Pan, Dramatic Zoom, Cinematic Dolly, Subtle Motion, Rain & Moody Lighting, Magical Sparkles, Ocean Waves, Timelapse Sunrise, Falling Snow, Fire & Embers, Music Video, Dreamy Lens Flares, Drone Flyover, Vintage Film, Glitch / VHS
+
+### ASL Conversation
+
+Select a recording duration (30, 90, or 120 seconds), click **Record**, and sign in ASL via your webcam. The agent reads your signing and replies in natural language.
+
+### Free-Form Chat
+
+Type anything in the input bar -- the agent understands natural language:
 
 ```
 Transform this photo into a Van Gogh painting
 Make a cinematic video of this image, 16:9 widescreen
 What images do I have in the outputs folder?
-Open camera 0 with 1920x1080 resolution
+Open camera 1 with avfoundation backend
 ```
+
+## How It Works
+
+`run_local.py` is a FastAPI app that:
+1. Spawns the ADK api_server as a subprocess with `MCP_LOCAL=1` (enables direct webcam access)
+2. Waits for the ADK server to be ready
+3. Serves the custom web UI at `/`
+4. Proxies all API calls (`/api/*`) to the ADK backend, including SSE streaming
+5. Serves generated files from `/outputs/` and handles image uploads
+
+The web UI (`static/index.html`) is a single-file app using Tailwind CSS with:
+- Camera controls and image upload
+- Dropdown menus with pre-built prompts for Nano Banana and Veo3
+- Chat interface with SSE streaming
+- Inline display of generated images and videos
+- Tool call indicators showing when the agent is calling AI tools
 
 ## Project Structure
 
