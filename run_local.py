@@ -9,13 +9,13 @@ Usage:
     GOOGLE_API_KEY="$GEMINI_API_KEY" python run_local.py
 """
 
-import asyncio
 import atexit
 import os
 import signal
 import subprocess
 import sys
 import time
+from contextlib import asynccontextmanager
 
 import httpx
 import uvicorn
@@ -31,30 +31,51 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_DIR = os.path.join(PROJECT_DIR, "static")
 OUTPUTS_DIR = os.path.join(PROJECT_DIR, "outputs")
 
-app = FastAPI()
+# Resolve the venv python — prefer VIRTUAL_ENV, fall back to sys.executable
+_venv = os.environ.get("VIRTUAL_ENV")
+if _venv:
+    PYTHON = os.path.join(_venv, "bin", "python")
+else:
+    PYTHON = sys.executable
+
 adk_proc: subprocess.Popen | None = None
 http_client: httpx.AsyncClient | None = None
 
 
-@app.on_event("startup")
-async def startup():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     global http_client
     http_client = httpx.AsyncClient(timeout=httpx.Timeout(600.0))
+    yield
+    await http_client.aclose()
 
 
-@app.on_event("shutdown")
-async def shutdown():
-    if http_client:
-        await http_client.aclose()
+app = FastAPI(lifespan=lifespan)
 
 
 def start_adk_server():
     global adk_proc
     env = {**os.environ, "MCP_LOCAL": "1"}
+
+    # Verify google-adk is importable before spawning
+    try:
+        subprocess.run(
+            [PYTHON, "-c", "import google.adk"],
+            env=env, check=True, capture_output=True,
+        )
+    except subprocess.CalledProcessError:
+        print(
+            "ERROR: google-adk is not installed.\n"
+            "  Run: pip install -e .\n"
+            f"  (using python: {PYTHON})",
+            file=sys.stderr,
+        )
+        sys.exit(1)
+
     adk_proc = subprocess.Popen(
-        [sys.executable, "-m", "google.adk.cli", "api_server", ".", "--port", str(ADK_PORT)],
+        [PYTHON, "-m", "google.adk.cli", "api_server", ".", "--port", str(ADK_PORT)],
         env=env,
-        cwd=os.path.dirname(os.path.abspath(__file__)),
+        cwd=PROJECT_DIR,
     )
 
     # Wait for ADK to be ready
@@ -154,6 +175,7 @@ async def proxy_to_adk(request: Request, path: str):
 
 
 def main():
+    print(f"Using Python: {PYTHON}")
     print("Starting ADK api_server...")
     start_adk_server()
     print(f"Starting custom UI on http://localhost:{UI_PORT}")
