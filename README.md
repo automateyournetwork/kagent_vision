@@ -35,6 +35,7 @@ source .venv/bin/activate
 ### 2. Install dependencies
 
 ```bash
+pip install --upgrade pip
 pip install -e .
 pip install -e servers/
 ```
