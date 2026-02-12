@@ -14,6 +14,8 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     .pulse-dot { animation: pulse-dot 1.5s ease-in-out infinite; }
+    /* Sidebar collapse transition */
+    #sidebar-wrapper { overflow: hidden; }
   </style>
 </head>
 <body class="h-full bg-slate-900 text-gray-100 flex flex-col">
@@ -30,22 +32,25 @@
   <!-- Main layout -->
   <div class="flex flex-1 overflow-hidden">
 
+    <!-- Sidebar wrapper (for collapse) -->
+    <div id="sidebar-wrapper" class="shrink-0 flex" style="width: 18rem; transition: width 0.2s ease;">
     <!-- Sidebar -->
-    <aside class="w-72 bg-slate-800 border-r border-slate-700 flex flex-col p-4 gap-5 overflow-y-auto shrink-0">
+    <aside id="sidebar" class="w-72 bg-slate-800 border-r border-slate-700 flex flex-col shrink-0 min-w-[18rem]">
+      <div class="flex-1 overflow-y-auto p-4 space-y-4">
 
       <!-- Camera Controls -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Camera Controls</h2>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Camera Controls</h2>
         <button onclick="sendMessage('List my cameras')"
                 class="w-full mb-2 px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium rounded-lg transition">
           Detect Cameras
         </button>
         <div class="flex gap-2">
-          <select id="camera-select" class="flex-1 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
+          <select id="camera-select" class="min-w-0 flex-1 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
             <option value="">No cameras detected</option>
           </select>
           <button onclick="openSelectedCamera()"
-                  class="px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium rounded-lg transition">
+                  class="shrink-0 px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium rounded-lg transition">
             Open
           </button>
         </div>
@@ -53,7 +58,7 @@
 
       <!-- Capture / Upload -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Capture / Upload</h2>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Capture / Upload</h2>
         <div class="flex gap-2">
           <button onclick="sendMessage('Take a photo')"
                   class="flex-1 px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium rounded-lg transition">
@@ -69,76 +74,72 @@
 
       <!-- Nano Banana -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Nano Banana</h2>
-        <div class="flex gap-2">
-          <select id="banana-select" class="flex-1 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
-            <option value="Transform my latest photo into cyberpunk digital art">Cyberpunk digital art</option>
-            <option value="Transform my latest photo into a watercolor painting">Watercolor painting</option>
-            <option value="Transform my latest photo into an oil painting in the style of Van Gogh">Van Gogh oil painting</option>
-            <option value="Transform my latest photo into a Pixar-style 3D cartoon">Pixar 3D cartoon</option>
-            <option value="Transform my latest photo into anime style">Anime style</option>
-            <option value="Transform my latest photo into a comic book illustration">Comic book illustration</option>
-            <option value="Transform my latest photo into a pencil sketch drawing">Pencil sketch</option>
-            <option value="Transform my latest photo into a neon synthwave poster">Neon synthwave poster</option>
-            <option value="Transform my latest photo into a Renaissance painting">Renaissance painting</option>
-            <option value="Transform my latest photo into a pop art print like Andy Warhol">Pop art (Warhol)</option>
-            <option value="Transform my latest photo into a Studio Ghibli scene">Studio Ghibli scene</option>
-            <option value="Transform my latest photo into a vintage 1950s travel poster">Vintage travel poster</option>
-            <option value="Transform my latest photo into a stained glass window design">Stained glass</option>
-            <option value="Transform my latest photo into a low-poly geometric art piece">Low-poly geometric</option>
-            <option value="Transform my latest photo into a surrealist painting like Salvador Dali">Surrealist (Dali)</option>
-            <option value="Transform my latest photo into a pixel art retro game sprite">Pixel art retro</option>
-            <option value="Transform my latest photo into a traditional Japanese woodblock print">Japanese woodblock</option>
-            <option value="Transform my latest photo into a dark gothic fantasy illustration">Gothic fantasy</option>
-            <option value="Transform my latest photo into a minimalist line art drawing">Minimalist line art</option>
-            <option value="Transform my latest photo into a photorealistic cinematic movie still">Cinematic movie still</option>
-          </select>
-          <button onclick="sendMessage(document.getElementById('banana-select').value)"
-                  class="px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-lg transition whitespace-nowrap">
-            Generate
-          </button>
-        </div>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Nano Banana</h2>
+        <select id="banana-select" class="w-full mb-2 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
+          <option value="Transform my latest photo into cyberpunk digital art">Cyberpunk digital art</option>
+          <option value="Transform my latest photo into a watercolor painting">Watercolor painting</option>
+          <option value="Transform my latest photo into an oil painting in the style of Van Gogh">Van Gogh oil painting</option>
+          <option value="Transform my latest photo into a Pixar-style 3D cartoon">Pixar 3D cartoon</option>
+          <option value="Transform my latest photo into anime style">Anime style</option>
+          <option value="Transform my latest photo into a comic book illustration">Comic book illustration</option>
+          <option value="Transform my latest photo into a pencil sketch drawing">Pencil sketch</option>
+          <option value="Transform my latest photo into a neon synthwave poster">Neon synthwave poster</option>
+          <option value="Transform my latest photo into a Renaissance painting">Renaissance painting</option>
+          <option value="Transform my latest photo into a pop art print like Andy Warhol">Pop art (Warhol)</option>
+          <option value="Transform my latest photo into a Studio Ghibli scene">Studio Ghibli scene</option>
+          <option value="Transform my latest photo into a vintage 1950s travel poster">Vintage travel poster</option>
+          <option value="Transform my latest photo into a stained glass window design">Stained glass</option>
+          <option value="Transform my latest photo into a low-poly geometric art piece">Low-poly geometric</option>
+          <option value="Transform my latest photo into a surrealist painting like Salvador Dali">Surrealist (Dali)</option>
+          <option value="Transform my latest photo into a pixel art retro game sprite">Pixel art retro</option>
+          <option value="Transform my latest photo into a traditional Japanese woodblock print">Japanese woodblock</option>
+          <option value="Transform my latest photo into a dark gothic fantasy illustration">Gothic fantasy</option>
+          <option value="Transform my latest photo into a minimalist line art drawing">Minimalist line art</option>
+          <option value="Transform my latest photo into a photorealistic cinematic movie still">Cinematic movie still</option>
+        </select>
+        <button onclick="sendMessage(document.getElementById('banana-select').value)"
+                class="w-full px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-lg transition">
+          Generate Image
+        </button>
       </section>
 
       <!-- Veo3 Video -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Veo3 Video</h2>
-        <div class="flex gap-2">
-          <select id="veo-select" class="flex-1 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
-            <option value="Create a short video from my latest image with gentle camera movement">Gentle camera pan</option>
-            <option value="Create a short video from my latest image with a dramatic zoom in">Dramatic zoom in</option>
-            <option value="Create a short video from my latest image with a slow cinematic dolly shot">Cinematic dolly shot</option>
-            <option value="Create a short video from my latest image coming to life with subtle motion">Subtle motion</option>
-            <option value="Create a short video from my latest image with falling rain and moody lighting">Rain and moody lighting</option>
-            <option value="Create a short video from my latest image with particles and magical sparkles floating around">Magical sparkles</option>
-            <option value="Create a short video from my latest image with ocean waves crashing in the background">Ocean waves</option>
-            <option value="Create a short video from my latest image with a timelapse sunrise effect">Timelapse sunrise</option>
-            <option value="Create a short video from my latest image with snow falling gently">Falling snow</option>
-            <option value="Create a short video from my latest image with fire and embers rising">Fire and embers</option>
-            <option value="Create a short video from my latest image as if it were a scene in a music video">Music video style</option>
-            <option value="Create a short video from my latest image with a dreamy soft focus and lens flares">Dreamy lens flares</option>
-            <option value="Create a short video from my latest image with an epic drone flyover perspective">Drone flyover</option>
-            <option value="Create a short video from my latest image in the style of a vintage film reel">Vintage film reel</option>
-            <option value="Create a short video from my latest image with glitch art and VHS distortion effects">Glitch art / VHS</option>
-          </select>
-          <button onclick="sendMessage(document.getElementById('veo-select').value)"
-                  class="px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-lg transition whitespace-nowrap">
-            Generate
-          </button>
-        </div>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Veo3 Video</h2>
+        <select id="veo-select" class="w-full mb-2 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
+          <option value="Create a short video from my latest image with gentle camera movement">Gentle camera pan</option>
+          <option value="Create a short video from my latest image with a dramatic zoom in">Dramatic zoom in</option>
+          <option value="Create a short video from my latest image with a slow cinematic dolly shot">Cinematic dolly shot</option>
+          <option value="Create a short video from my latest image coming to life with subtle motion">Subtle motion</option>
+          <option value="Create a short video from my latest image with falling rain and moody lighting">Rain and moody lighting</option>
+          <option value="Create a short video from my latest image with particles and magical sparkles floating around">Magical sparkles</option>
+          <option value="Create a short video from my latest image with ocean waves crashing in the background">Ocean waves</option>
+          <option value="Create a short video from my latest image with a timelapse sunrise effect">Timelapse sunrise</option>
+          <option value="Create a short video from my latest image with snow falling gently">Falling snow</option>
+          <option value="Create a short video from my latest image with fire and embers rising">Fire and embers</option>
+          <option value="Create a short video from my latest image as if it were a scene in a music video">Music video style</option>
+          <option value="Create a short video from my latest image with a dreamy soft focus and lens flares">Dreamy lens flares</option>
+          <option value="Create a short video from my latest image with an epic drone flyover perspective">Drone flyover</option>
+          <option value="Create a short video from my latest image in the style of a vintage film reel">Vintage film reel</option>
+          <option value="Create a short video from my latest image with glitch art and VHS distortion effects">Glitch art / VHS</option>
+        </select>
+        <button onclick="sendMessage(document.getElementById('veo-select').value)"
+                class="w-full px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-lg transition">
+          Generate Video
+        </button>
       </section>
 
       <!-- ASL -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">ASL Interpreter</h2>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">ASL Interpreter</h2>
         <div class="flex gap-2">
-          <select id="asl-select" class="flex-1 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
+          <select id="asl-select" class="min-w-0 flex-1 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
             <option value="30">30 seconds</option>
             <option value="90">90 seconds</option>
             <option value="120">120 seconds</option>
           </select>
           <button onclick="sendAsl()"
-                  class="px-3 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-lg transition whitespace-nowrap">
+                  class="shrink-0 px-3 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-lg transition">
             Record
           </button>
         </div>
@@ -151,7 +152,19 @@
           Stop Camera
         </button>
       </section>
+
+      </div>
     </aside>
+    </div>
+
+    <!-- Sidebar collapse toggle -->
+    <button id="sidebar-toggle" onclick="toggleSidebar()"
+            class="shrink-0 w-6 bg-slate-800 hover:bg-slate-700 border-r border-slate-700 flex items-center justify-center cursor-pointer"
+            title="Toggle sidebar">
+      <svg id="toggle-icon" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
 
     <!-- Chat Area -->
     <main class="flex-1 flex flex-col">
@@ -212,6 +225,16 @@
   </div>
 
 <script>
+// ── Sidebar collapse ─────────────────────────────────────
+let sidebarCollapsed = false;
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  const wrapper = document.getElementById("sidebar-wrapper");
+  const icon = document.getElementById("toggle-icon");
+  wrapper.style.width = sidebarCollapsed ? "0" : "18rem";
+  icon.style.transform = sidebarCollapsed ? "rotate(180deg)" : "";
+}
+
 const APP_NAME = "kagent_vision";
 const USER_ID = "web_user";
 const API_BASE = "/api";
