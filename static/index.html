@@ -23,10 +23,27 @@
   <!-- Header -->
   <header class="flex items-center justify-between px-6 py-3 bg-slate-800 border-b border-slate-700 shrink-0">
     <div class="flex items-center gap-3">
-      <h1 class="text-xl font-bold text-cyan-400">Vision Agent</h1>
+      <h1 class="text-xl font-bold text-cyan-400" data-i18n="title">Vision Agent</h1>
       <span id="status-dot" class="w-2.5 h-2.5 rounded-full bg-green-500 pulse-dot" title="Connected"></span>
     </div>
-    <span class="text-xs text-slate-500">Webcam &bull; Nano Banana &bull; Veo3 &bull; ASL</span>
+    <div class="flex items-center gap-3">
+      <span class="text-xs text-slate-500">Webcam &bull; Nano Banana &bull; Veo3 &bull; ASL</span>
+      <select id="lang-select" onchange="setLanguage(this.value)"
+              class="bg-slate-700 text-xs text-gray-300 rounded px-2 py-1 border border-slate-600 focus:outline-none focus:border-cyan-500 cursor-pointer">
+        <option value="en">English</option>
+        <option value="es">Espa&ntilde;ol</option>
+        <option value="fr">Fran&ccedil;ais</option>
+        <option value="de">Deutsch</option>
+        <option value="pt">Portugu&ecirc;s</option>
+        <option value="it">Italiano</option>
+        <option value="ja">&#26085;&#26412;&#35486;</option>
+        <option value="ko">&#54620;&#44397;&#50612;</option>
+        <option value="zh">&#20013;&#25991;</option>
+        <option value="ar">&#1575;&#1604;&#1593;&#1585;&#1576;&#1610;&#1577;</option>
+        <option value="hi">&#2361;&#2367;&#2344;&#2381;&#2342;&#2368;</option>
+        <option value="ru">&#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</option>
+      </select>
+    </div>
   </header>
 
   <!-- Main layout -->
@@ -40,17 +57,19 @@
 
       <!-- Camera Controls -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Camera Controls</h2>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2" data-i18n="camera_controls">Camera Controls</h2>
         <button onclick="sendMessage('List my cameras')"
-                class="w-full mb-2 px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium rounded-lg transition">
+                class="w-full mb-2 px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium rounded-lg transition"
+                data-i18n="detect_cameras">
           Detect Cameras
         </button>
         <div class="flex gap-2">
           <select id="camera-select" class="min-w-0 flex-1 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
-            <option value="">No cameras detected</option>
+            <option value="" data-i18n="no_cameras">No cameras detected</option>
           </select>
           <button onclick="openSelectedCamera()"
-                  class="shrink-0 px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium rounded-lg transition">
+                  class="shrink-0 px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium rounded-lg transition"
+                  data-i18n="open">
             Open
           </button>
         </div>
@@ -58,14 +77,16 @@
 
       <!-- Capture / Upload -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Capture / Upload</h2>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2" data-i18n="capture_upload">Capture / Upload</h2>
         <div class="flex gap-2">
           <button onclick="sendMessage('Take a photo')"
-                  class="flex-1 px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium rounded-lg transition">
+                  class="flex-1 px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-medium rounded-lg transition"
+                  data-i18n="take_photo">
             Take a Photo
           </button>
           <button onclick="document.getElementById('file-upload').click()"
-                  class="flex-1 px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium rounded-lg transition">
+                  class="flex-1 px-3 py-2 bg-slate-600 hover:bg-slate-500 text-white text-sm font-medium rounded-lg transition"
+                  data-i18n="upload_image">
             Upload Image
           </button>
           <input id="file-upload" type="file" accept="image/*" class="hidden" onchange="handleUpload(event)">
@@ -74,7 +95,7 @@
 
       <!-- Nano Banana -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Nano Banana</h2>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2" data-i18n="nano_banana">Nano Banana</h2>
         <select id="banana-select" class="w-full mb-2 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
           <option value="Transform my latest photo into cyberpunk digital art">Cyberpunk digital art</option>
           <option value="Transform my latest photo into a watercolor painting">Watercolor painting</option>
@@ -98,14 +119,15 @@
           <option value="Transform my latest photo into a photorealistic cinematic movie still">Cinematic movie still</option>
         </select>
         <button onclick="sendMessage(document.getElementById('banana-select').value)"
-                class="w-full px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-lg transition">
+                class="w-full px-3 py-2 bg-amber-600 hover:bg-amber-500 text-white text-sm font-medium rounded-lg transition"
+                data-i18n="generate_image">
           Generate Image
         </button>
       </section>
 
       <!-- Veo3 Video -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Veo3 Video</h2>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2" data-i18n="veo3_video">Veo3 Video</h2>
         <select id="veo-select" class="w-full mb-2 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
           <option value="Create a short video from my latest image with gentle camera movement">Gentle camera pan</option>
           <option value="Create a short video from my latest image with a dramatic zoom in">Dramatic zoom in</option>
@@ -124,22 +146,24 @@
           <option value="Create a short video from my latest image with glitch art and VHS distortion effects">Glitch art / VHS</option>
         </select>
         <button onclick="sendMessage(document.getElementById('veo-select').value)"
-                class="w-full px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-lg transition">
+                class="w-full px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium rounded-lg transition"
+                data-i18n="generate_video">
           Generate Video
         </button>
       </section>
 
       <!-- ASL -->
       <section>
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">ASL Interpreter</h2>
+        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2" data-i18n="asl_interpreter">ASL Interpreter</h2>
         <div class="flex gap-2">
           <select id="asl-select" class="min-w-0 flex-1 bg-slate-700 text-sm text-gray-200 rounded-lg px-2 py-2 border border-slate-600 focus:outline-none focus:border-cyan-500">
-            <option value="30">30 seconds</option>
-            <option value="90">90 seconds</option>
-            <option value="120">120 seconds</option>
+            <option value="30" data-i18n="sec_30">30 seconds</option>
+            <option value="90" data-i18n="sec_90">90 seconds</option>
+            <option value="120" data-i18n="sec_120">120 seconds</option>
           </select>
           <button onclick="sendAsl()"
-                  class="shrink-0 px-3 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-lg transition">
+                  class="shrink-0 px-3 py-2 bg-green-600 hover:bg-green-500 text-white text-sm font-medium rounded-lg transition"
+                  data-i18n="record">
             Record
           </button>
         </div>
@@ -148,7 +172,8 @@
       <!-- Stop Camera -->
       <section>
         <button onclick="sendMessage('Stop the camera')"
-                class="w-full px-3 py-2 bg-slate-700 hover:bg-red-900/40 text-sm font-medium rounded-lg transition text-red-400 border border-slate-600">
+                class="w-full px-3 py-2 bg-slate-700 hover:bg-red-900/40 text-sm font-medium rounded-lg transition text-red-400 border border-slate-600"
+                data-i18n="stop_camera">
           Stop Camera
         </button>
       </section>
@@ -172,34 +197,31 @@
       <!-- Messages -->
       <div id="messages" class="flex-1 overflow-y-auto p-6 space-y-4">
         <div id="welcome" class="max-w-xl mx-auto py-6 space-y-4">
-          <h2 class="text-lg font-bold text-cyan-400 text-center">Welcome to Vision Agent</h2>
-          <p class="text-sm text-slate-400 text-center">AI-powered webcam capture, image transformation, video generation, and ASL interpretation.</p>
+          <h2 class="text-lg font-bold text-cyan-400 text-center" data-i18n="welcome_title">Welcome to Vision Agent</h2>
+          <p class="text-sm text-slate-400 text-center" data-i18n="welcome_subtitle">AI-powered webcam capture, image transformation, video generation, and ASL interpretation.</p>
           <div class="grid grid-cols-2 gap-3 text-xs text-slate-300">
             <div class="bg-slate-800 rounded-lg p-3 border border-slate-700">
-              <div class="font-semibold text-cyan-400 mb-1">1. Setup Camera</div>
-              Click <strong>Detect Cameras</strong> in the sidebar, select your camera, and click <strong>Open</strong>.
+              <div class="font-semibold text-cyan-400 mb-1" data-i18n="step1_title">1. Setup Camera</div>
+              <span data-i18n-html="step1_desc">Click <strong>Detect Cameras</strong> in the sidebar, select your camera, and click <strong>Open</strong>.</span>
             </div>
             <div class="bg-slate-800 rounded-lg p-3 border border-slate-700">
-              <div class="font-semibold text-amber-400 mb-1">2. Capture &amp; Transform</div>
-              Click <strong>Take a Photo</strong>, then pick a style from the <strong>Nano Banana</strong> dropdown and hit <strong>Generate</strong>.
+              <div class="font-semibold text-amber-400 mb-1" data-i18n="step2_title">2. Capture &amp; Transform</div>
+              <span data-i18n-html="step2_desc">Click <strong>Take a Photo</strong>, then pick a style from the <strong>Nano Banana</strong> dropdown and hit <strong>Generate</strong>.</span>
             </div>
             <div class="bg-slate-800 rounded-lg p-3 border border-slate-700">
-              <div class="font-semibold text-purple-400 mb-1">3. Animate</div>
-              Choose an effect from <strong>Veo3 Video</strong> and click <strong>Generate</strong> to create a short AI video clip.
+              <div class="font-semibold text-purple-400 mb-1" data-i18n="step3_title">3. Animate</div>
+              <span data-i18n-html="step3_desc">Choose an effect from <strong>Veo3 Video</strong> and click <strong>Generate</strong> to create a short AI video clip.</span>
             </div>
             <div class="bg-slate-800 rounded-lg p-3 border border-slate-700">
-              <div class="font-semibold text-green-400 mb-1">4. ASL Conversation</div>
-              Sign in ASL via your webcam -- select a duration, click <strong>Record</strong>, and the agent reads your signing and replies in natural language.
+              <div class="font-semibold text-green-400 mb-1" data-i18n="step4_title">4. ASL Conversation</div>
+              <span data-i18n-html="step4_desc">Sign in ASL via your webcam -- select a duration, click <strong>Record</strong>, and the agent reads your signing and replies in natural language.</span>
             </div>
           </div>
           <div class="bg-slate-800 rounded-lg p-3 border border-slate-700 text-xs text-slate-400">
-            <div class="font-semibold text-slate-300 mb-1">Or just type naturally</div>
-            The agent understands free-form prompts. Try things like:<br>
-            <span class="text-slate-300">"Take a photo and turn it into a Van Gogh painting"</span><br>
-            <span class="text-slate-300">"Make a cinematic video from my latest image"</span><br>
-            <span class="text-slate-300">"Open camera 1 with avfoundation backend"</span>
+            <div class="font-semibold text-slate-300 mb-1" data-i18n="type_naturally">Or just type naturally</div>
+            <span data-i18n-html="type_naturally_desc">The agent understands free-form prompts. Try things like:<br><span class="text-slate-300">"Take a photo and turn it into a Van Gogh painting"</span><br><span class="text-slate-300">"Make a cinematic video from my latest image"</span><br><span class="text-slate-300">"Open camera 1 with avfoundation backend"</span></span>
           </div>
-          <p class="text-xs text-slate-500 text-center">All outputs are saved to the <code class="bg-slate-700 px-1 rounded">outputs/</code> folder and displayed inline below.</p>
+          <p class="text-xs text-slate-500 text-center" data-i18n-html="outputs_note">All outputs are saved to the <code class="bg-slate-700 px-1 rounded">outputs/</code> folder and displayed inline below.</p>
         </div>
       </div>
 
@@ -213,11 +235,12 @@
 
       <!-- Input -->
       <form onsubmit="handleSubmit(event)" class="p-4 border-t border-slate-700 flex gap-3 shrink-0">
-        <input id="input" type="text" placeholder="Type a message..."
+        <input id="input" type="text" placeholder="Type a message..." data-i18n-placeholder="placeholder_message"
                class="flex-1 bg-slate-800 text-gray-100 text-sm rounded-lg px-4 py-3 border border-slate-600 focus:outline-none focus:border-cyan-500 placeholder-slate-500"
                autocomplete="off">
         <button type="submit" id="send-btn"
-                class="px-5 py-3 bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-sm font-medium rounded-lg transition">
+                class="px-5 py-3 bg-cyan-600 hover:bg-cyan-500 disabled:bg-slate-700 disabled:text-slate-500 text-white text-sm font-medium rounded-lg transition"
+                data-i18n="send">
           Send
         </button>
       </form>
@@ -233,6 +256,498 @@ function toggleSidebar() {
   const icon = document.getElementById("toggle-icon");
   wrapper.style.width = sidebarCollapsed ? "0" : "18rem";
   icon.style.transform = sidebarCollapsed ? "rotate(180deg)" : "";
+}
+
+// ── i18n ─────────────────────────────────────────────────
+const i18n = {
+  en: {
+    title: "Vision Agent",
+    camera_controls: "Camera Controls",
+    detect_cameras: "Detect Cameras",
+    no_cameras: "No cameras detected",
+    open: "Open",
+    capture_upload: "Capture / Upload",
+    take_photo: "Take a Photo",
+    upload_image: "Upload Image",
+    nano_banana: "Nano Banana",
+    generate_image: "Generate Image",
+    veo3_video: "Veo3 Video",
+    generate_video: "Generate Video",
+    asl_interpreter: "ASL Interpreter",
+    sec_30: "30 seconds",
+    sec_90: "90 seconds",
+    sec_120: "120 seconds",
+    record: "Record",
+    stop_camera: "Stop Camera",
+    welcome_title: "Welcome to Vision Agent",
+    welcome_subtitle: "AI-powered webcam capture, image transformation, video generation, and ASL interpretation.",
+    step1_title: "1. Setup Camera",
+    step1_desc: 'Click <strong>Detect Cameras</strong> in the sidebar, select your camera, and click <strong>Open</strong>.',
+    step2_title: "2. Capture & Transform",
+    step2_desc: 'Click <strong>Take a Photo</strong>, then pick a style from the <strong>Nano Banana</strong> dropdown and hit <strong>Generate</strong>.',
+    step3_title: "3. Animate",
+    step3_desc: 'Choose an effect from <strong>Veo3 Video</strong> and click <strong>Generate</strong> to create a short AI video clip.',
+    step4_title: "4. ASL Conversation",
+    step4_desc: 'Sign in ASL via your webcam -- select a duration, click <strong>Record</strong>, and the agent reads your signing and replies in natural language.',
+    type_naturally: "Or just type naturally",
+    type_naturally_desc: 'The agent understands free-form prompts. Try things like:<br><span class="text-slate-300">"Take a photo and turn it into a Van Gogh painting"</span><br><span class="text-slate-300">"Make a cinematic video from my latest image"</span><br><span class="text-slate-300">"Open camera 1 with avfoundation backend"</span>',
+    outputs_note: 'All outputs are saved to the <code class="bg-slate-700 px-1 rounded">outputs/</code> folder and displayed inline below.',
+    placeholder_message: "Type a message...",
+    send: "Send",
+    upload_failed: "Upload failed.",
+    upload_failed_retry: "Upload failed. Please try again.",
+    connection_error: "Connection error. Please try again.",
+    session_error: "Failed to connect to agent. Is the server running?",
+  },
+  es: {
+    title: "Agente de Visi\u00f3n",
+    camera_controls: "Controles de C\u00e1mara",
+    detect_cameras: "Detectar C\u00e1maras",
+    no_cameras: "No se detectaron c\u00e1maras",
+    open: "Abrir",
+    capture_upload: "Capturar / Subir",
+    take_photo: "Tomar Foto",
+    upload_image: "Subir Imagen",
+    nano_banana: "Nano Banana",
+    generate_image: "Generar Imagen",
+    veo3_video: "Veo3 Video",
+    generate_video: "Generar Video",
+    asl_interpreter: "Int\u00e9rprete ASL",
+    sec_30: "30 segundos",
+    sec_90: "90 segundos",
+    sec_120: "120 segundos",
+    record: "Grabar",
+    stop_camera: "Detener C\u00e1mara",
+    welcome_title: "Bienvenido a Agente de Visi\u00f3n",
+    welcome_subtitle: "Captura de webcam, transformaci\u00f3n de im\u00e1genes, generaci\u00f3n de video e interpretaci\u00f3n ASL con IA.",
+    step1_title: "1. Configurar C\u00e1mara",
+    step1_desc: 'Haz clic en <strong>Detectar C\u00e1maras</strong> en la barra lateral, selecciona tu c\u00e1mara y haz clic en <strong>Abrir</strong>.',
+    step2_title: "2. Capturar y Transformar",
+    step2_desc: 'Haz clic en <strong>Tomar Foto</strong>, elige un estilo del men\u00fa <strong>Nano Banana</strong> y presiona <strong>Generar</strong>.',
+    step3_title: "3. Animar",
+    step3_desc: 'Elige un efecto de <strong>Veo3 Video</strong> y haz clic en <strong>Generar</strong> para crear un clip de video con IA.',
+    step4_title: "4. Conversaci\u00f3n ASL",
+    step4_desc: 'Usa lenguaje de se\u00f1as ASL frente a tu webcam -- selecciona una duraci\u00f3n, haz clic en <strong>Grabar</strong>, y el agente interpreta tus se\u00f1as y responde en lenguaje natural.',
+    type_naturally: "O simplemente escribe",
+    type_naturally_desc: 'El agente entiende instrucciones en texto libre. Prueba cosas como:<br><span class="text-slate-300">"Toma una foto y transf\u00f3rmala en una pintura de Van Gogh"</span><br><span class="text-slate-300">"Haz un video cinem\u00e1tico de mi \u00faltima imagen"</span><br><span class="text-slate-300">"Abre la c\u00e1mara 1 con backend avfoundation"</span>',
+    outputs_note: 'Todos los resultados se guardan en la carpeta <code class="bg-slate-700 px-1 rounded">outputs/</code> y se muestran abajo.',
+    placeholder_message: "Escribe un mensaje...",
+    send: "Enviar",
+    upload_failed: "Error al subir.",
+    upload_failed_retry: "Error al subir. Int\u00e9ntalo de nuevo.",
+    connection_error: "Error de conexi\u00f3n. Int\u00e9ntalo de nuevo.",
+    session_error: "\u00bfNo se pudo conectar al agente. \u00bfEl servidor est\u00e1 en ejecuci\u00f3n?",
+  },
+  fr: {
+    title: "Agent de Vision",
+    camera_controls: "Contr\u00f4les Cam\u00e9ra",
+    detect_cameras: "D\u00e9tecter Cam\u00e9ras",
+    no_cameras: "Aucune cam\u00e9ra d\u00e9tect\u00e9e",
+    open: "Ouvrir",
+    capture_upload: "Capturer / T\u00e9l\u00e9verser",
+    take_photo: "Prendre une Photo",
+    upload_image: "T\u00e9l\u00e9verser Image",
+    nano_banana: "Nano Banana",
+    generate_image: "G\u00e9n\u00e9rer Image",
+    veo3_video: "Veo3 Vid\u00e9o",
+    generate_video: "G\u00e9n\u00e9rer Vid\u00e9o",
+    asl_interpreter: "Interpr\u00e8te ASL",
+    sec_30: "30 secondes",
+    sec_90: "90 secondes",
+    sec_120: "120 secondes",
+    record: "Enregistrer",
+    stop_camera: "Arr\u00eater Cam\u00e9ra",
+    welcome_title: "Bienvenue sur Agent de Vision",
+    welcome_subtitle: "Capture webcam, transformation d'images, g\u00e9n\u00e9ration vid\u00e9o et interpr\u00e9tation ASL aliment\u00e9es par l'IA.",
+    step1_title: "1. Configurer la Cam\u00e9ra",
+    step1_desc: 'Cliquez sur <strong>D\u00e9tecter Cam\u00e9ras</strong> dans la barre lat\u00e9rale, s\u00e9lectionnez votre cam\u00e9ra et cliquez sur <strong>Ouvrir</strong>.',
+    step2_title: "2. Capturer et Transformer",
+    step2_desc: 'Cliquez sur <strong>Prendre une Photo</strong>, choisissez un style dans le menu <strong>Nano Banana</strong> et appuyez sur <strong>G\u00e9n\u00e9rer</strong>.',
+    step3_title: "3. Animer",
+    step3_desc: 'Choisissez un effet dans <strong>Veo3 Vid\u00e9o</strong> et cliquez sur <strong>G\u00e9n\u00e9rer</strong> pour cr\u00e9er un court clip vid\u00e9o IA.',
+    step4_title: "4. Conversation ASL",
+    step4_desc: 'Signez en ASL devant votre webcam -- s\u00e9lectionnez une dur\u00e9e, cliquez sur <strong>Enregistrer</strong>, et l\'agent lit vos signes et r\u00e9pond en langage naturel.',
+    type_naturally: "Ou tapez simplement",
+    type_naturally_desc: 'L\'agent comprend les instructions en texte libre. Essayez par exemple :<br><span class="text-slate-300">"Prends une photo et transforme-la en peinture de Van Gogh"</span><br><span class="text-slate-300">"Fais une vid\u00e9o cin\u00e9matique de ma derni\u00e8re image"</span><br><span class="text-slate-300">"Ouvre la cam\u00e9ra 1 avec le backend avfoundation"</span>',
+    outputs_note: 'Tous les r\u00e9sultats sont enregistr\u00e9s dans le dossier <code class="bg-slate-700 px-1 rounded">outputs/</code> et affich\u00e9s ci-dessous.',
+    placeholder_message: "\u00c9crivez un message...",
+    send: "Envoyer",
+    upload_failed: "\u00c9chec du t\u00e9l\u00e9versement.",
+    upload_failed_retry: "\u00c9chec du t\u00e9l\u00e9versement. Veuillez r\u00e9essayer.",
+    connection_error: "Erreur de connexion. Veuillez r\u00e9essayer.",
+    session_error: "Impossible de se connecter \u00e0 l'agent. Le serveur est-il en marche ?",
+  },
+  de: {
+    title: "Vision-Agent",
+    camera_controls: "Kamera-Steuerung",
+    detect_cameras: "Kameras erkennen",
+    no_cameras: "Keine Kameras erkannt",
+    open: "\u00d6ffnen",
+    capture_upload: "Aufnehmen / Hochladen",
+    take_photo: "Foto aufnehmen",
+    upload_image: "Bild hochladen",
+    nano_banana: "Nano Banana",
+    generate_image: "Bild generieren",
+    veo3_video: "Veo3 Video",
+    generate_video: "Video generieren",
+    asl_interpreter: "ASL-Dolmetscher",
+    sec_30: "30 Sekunden",
+    sec_90: "90 Sekunden",
+    sec_120: "120 Sekunden",
+    record: "Aufnehmen",
+    stop_camera: "Kamera stoppen",
+    welcome_title: "Willkommen beim Vision-Agent",
+    welcome_subtitle: "KI-gest\u00fctzte Webcam-Aufnahme, Bildtransformation, Videogenerierung und ASL-Interpretation.",
+    step1_title: "1. Kamera einrichten",
+    step1_desc: 'Klicken Sie auf <strong>Kameras erkennen</strong> in der Seitenleiste, w\u00e4hlen Sie Ihre Kamera und klicken Sie auf <strong>\u00d6ffnen</strong>.',
+    step2_title: "2. Aufnehmen & Transformieren",
+    step2_desc: 'Klicken Sie auf <strong>Foto aufnehmen</strong>, w\u00e4hlen Sie einen Stil aus dem <strong>Nano Banana</strong>-Men\u00fc und dr\u00fccken Sie <strong>Generieren</strong>.',
+    step3_title: "3. Animieren",
+    step3_desc: 'W\u00e4hlen Sie einen Effekt aus <strong>Veo3 Video</strong> und klicken Sie auf <strong>Generieren</strong>, um einen kurzen KI-Videoclip zu erstellen.',
+    step4_title: "4. ASL-Gespr\u00e4ch",
+    step4_desc: 'Geb\u00e4rden Sie in ASL vor Ihrer Webcam -- w\u00e4hlen Sie eine Dauer, klicken Sie auf <strong>Aufnehmen</strong>, und der Agent liest Ihre Geb\u00e4rden und antwortet in nat\u00fcrlicher Sprache.',
+    type_naturally: "Oder einfach tippen",
+    type_naturally_desc: 'Der Agent versteht Freitext-Anweisungen. Versuchen Sie z.B.:<br><span class="text-slate-300">"Mach ein Foto und verwandle es in ein Van-Gogh-Gem\u00e4lde"</span><br><span class="text-slate-300">"Erstelle ein cinematisches Video von meinem letzten Bild"</span><br><span class="text-slate-300">"Kamera 1 mit avfoundation-Backend \u00f6ffnen"</span>',
+    outputs_note: 'Alle Ergebnisse werden im Ordner <code class="bg-slate-700 px-1 rounded">outputs/</code> gespeichert und unten angezeigt.',
+    placeholder_message: "Nachricht eingeben...",
+    send: "Senden",
+    upload_failed: "Hochladen fehlgeschlagen.",
+    upload_failed_retry: "Hochladen fehlgeschlagen. Bitte versuchen Sie es erneut.",
+    connection_error: "Verbindungsfehler. Bitte versuchen Sie es erneut.",
+    session_error: "Verbindung zum Agenten fehlgeschlagen. L\u00e4uft der Server?",
+  },
+  pt: {
+    title: "Agente de Vis\u00e3o",
+    camera_controls: "Controles da C\u00e2mera",
+    detect_cameras: "Detectar C\u00e2meras",
+    no_cameras: "Nenhuma c\u00e2mera detectada",
+    open: "Abrir",
+    capture_upload: "Capturar / Enviar",
+    take_photo: "Tirar Foto",
+    upload_image: "Enviar Imagem",
+    nano_banana: "Nano Banana",
+    generate_image: "Gerar Imagem",
+    veo3_video: "Veo3 V\u00eddeo",
+    generate_video: "Gerar V\u00eddeo",
+    asl_interpreter: "Int\u00e9rprete ASL",
+    sec_30: "30 segundos",
+    sec_90: "90 segundos",
+    sec_120: "120 segundos",
+    record: "Gravar",
+    stop_camera: "Parar C\u00e2mera",
+    welcome_title: "Bem-vindo ao Agente de Vis\u00e3o",
+    welcome_subtitle: "Captura de webcam, transforma\u00e7\u00e3o de imagens, gera\u00e7\u00e3o de v\u00eddeo e interpreta\u00e7\u00e3o ASL com IA.",
+    step1_title: "1. Configurar C\u00e2mera",
+    step1_desc: 'Clique em <strong>Detectar C\u00e2meras</strong> na barra lateral, selecione sua c\u00e2mera e clique em <strong>Abrir</strong>.',
+    step2_title: "2. Capturar e Transformar",
+    step2_desc: 'Clique em <strong>Tirar Foto</strong>, escolha um estilo no menu <strong>Nano Banana</strong> e pressione <strong>Gerar</strong>.',
+    step3_title: "3. Animar",
+    step3_desc: 'Escolha um efeito em <strong>Veo3 V\u00eddeo</strong> e clique em <strong>Gerar</strong> para criar um curto clipe de v\u00eddeo com IA.',
+    step4_title: "4. Conversa\u00e7\u00e3o ASL",
+    step4_desc: 'Use linguagem de sinais ASL na webcam -- selecione uma dura\u00e7\u00e3o, clique em <strong>Gravar</strong>, e o agente interpreta seus sinais e responde em linguagem natural.',
+    type_naturally: "Ou simplesmente digite",
+    type_naturally_desc: 'O agente entende instru\u00e7\u00f5es em texto livre. Tente coisas como:<br><span class="text-slate-300">"Tire uma foto e transforme em uma pintura de Van Gogh"</span><br><span class="text-slate-300">"Fa\u00e7a um v\u00eddeo cinem\u00e1tico da minha \u00faltima imagem"</span><br><span class="text-slate-300">"Abra a c\u00e2mera 1 com backend avfoundation"</span>',
+    outputs_note: 'Todos os resultados s\u00e3o salvos na pasta <code class="bg-slate-700 px-1 rounded">outputs/</code> e exibidos abaixo.',
+    placeholder_message: "Digite uma mensagem...",
+    send: "Enviar",
+    upload_failed: "Falha no envio.",
+    upload_failed_retry: "Falha no envio. Tente novamente.",
+    connection_error: "Erro de conex\u00e3o. Tente novamente.",
+    session_error: "Falha ao conectar ao agente. O servidor est\u00e1 rodando?",
+  },
+  it: {
+    title: "Agente Visione",
+    camera_controls: "Controlli Fotocamera",
+    detect_cameras: "Rileva Fotocamere",
+    no_cameras: "Nessuna fotocamera rilevata",
+    open: "Apri",
+    capture_upload: "Cattura / Carica",
+    take_photo: "Scatta Foto",
+    upload_image: "Carica Immagine",
+    nano_banana: "Nano Banana",
+    generate_image: "Genera Immagine",
+    veo3_video: "Veo3 Video",
+    generate_video: "Genera Video",
+    asl_interpreter: "Interprete ASL",
+    sec_30: "30 secondi",
+    sec_90: "90 secondi",
+    sec_120: "120 secondi",
+    record: "Registra",
+    stop_camera: "Ferma Fotocamera",
+    welcome_title: "Benvenuto in Agente Visione",
+    welcome_subtitle: "Cattura webcam, trasformazione immagini, generazione video e interpretazione ASL con IA.",
+    step1_title: "1. Configura Fotocamera",
+    step1_desc: 'Clicca su <strong>Rileva Fotocamere</strong> nella barra laterale, seleziona la tua fotocamera e clicca su <strong>Apri</strong>.',
+    step2_title: "2. Cattura e Trasforma",
+    step2_desc: 'Clicca su <strong>Scatta Foto</strong>, scegli uno stile dal menu <strong>Nano Banana</strong> e premi <strong>Genera</strong>.',
+    step3_title: "3. Anima",
+    step3_desc: 'Scegli un effetto da <strong>Veo3 Video</strong> e clicca su <strong>Genera</strong> per creare un breve clip video IA.',
+    step4_title: "4. Conversazione ASL",
+    step4_desc: 'Usa il linguaggio dei segni ASL davanti alla webcam -- seleziona una durata, clicca su <strong>Registra</strong>, e l\'agente legge i tuoi segni e risponde in linguaggio naturale.',
+    type_naturally: "Oppure scrivi liberamente",
+    type_naturally_desc: 'L\'agente comprende istruzioni in testo libero. Prova cose come:<br><span class="text-slate-300">"Scatta una foto e trasformala in un dipinto di Van Gogh"</span><br><span class="text-slate-300">"Crea un video cinematico dalla mia ultima immagine"</span><br><span class="text-slate-300">"Apri la fotocamera 1 con backend avfoundation"</span>',
+    outputs_note: 'Tutti i risultati vengono salvati nella cartella <code class="bg-slate-700 px-1 rounded">outputs/</code> e mostrati qui sotto.',
+    placeholder_message: "Scrivi un messaggio...",
+    send: "Invia",
+    upload_failed: "Caricamento fallito.",
+    upload_failed_retry: "Caricamento fallito. Riprova.",
+    connection_error: "Errore di connessione. Riprova.",
+    session_error: "Impossibile connettersi all'agente. Il server \u00e8 in esecuzione?",
+  },
+  ja: {
+    title: "\u30d3\u30b8\u30e7\u30f3\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8",
+    camera_controls: "\u30ab\u30e1\u30e9\u64cd\u4f5c",
+    detect_cameras: "\u30ab\u30e1\u30e9\u3092\u691c\u51fa",
+    no_cameras: "\u30ab\u30e1\u30e9\u304c\u691c\u51fa\u3055\u308c\u307e\u305b\u3093",
+    open: "\u958b\u304f",
+    capture_upload: "\u64ae\u5f71 / \u30a2\u30c3\u30d7\u30ed\u30fc\u30c9",
+    take_photo: "\u5199\u771f\u3092\u64ae\u308b",
+    upload_image: "\u753b\u50cf\u3092\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9",
+    nano_banana: "Nano Banana",
+    generate_image: "\u753b\u50cf\u3092\u751f\u6210",
+    veo3_video: "Veo3 \u30d3\u30c7\u30aa",
+    generate_video: "\u30d3\u30c7\u30aa\u3092\u751f\u6210",
+    asl_interpreter: "ASL\u901a\u8a33",
+    sec_30: "30\u79d2",
+    sec_90: "90\u79d2",
+    sec_120: "120\u79d2",
+    record: "\u9332\u753b",
+    stop_camera: "\u30ab\u30e1\u30e9\u3092\u505c\u6b62",
+    welcome_title: "\u30d3\u30b8\u30e7\u30f3\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u3078\u3088\u3046\u3053\u305d",
+    welcome_subtitle: "AI\u642d\u8f09\u306e\u30a6\u30a7\u30d6\u30ab\u30e0\u64ae\u5f71\u3001\u753b\u50cf\u5909\u63db\u3001\u30d3\u30c7\u30aa\u751f\u6210\u3001ASL\u901a\u8a33\u3002",
+    step1_title: "1. \u30ab\u30e1\u30e9\u8a2d\u5b9a",
+    step1_desc: '\u30b5\u30a4\u30c9\u30d0\u30fc\u306e<strong>\u30ab\u30e1\u30e9\u3092\u691c\u51fa</strong>\u3092\u30af\u30ea\u30c3\u30af\u3057\u3001\u30ab\u30e1\u30e9\u3092\u9078\u629e\u3057\u3066<strong>\u958b\u304f</strong>\u3092\u30af\u30ea\u30c3\u30af\u3002',
+    step2_title: "2. \u64ae\u5f71\u3068\u5909\u63db",
+    step2_desc: '<strong>\u5199\u771f\u3092\u64ae\u308b</strong>\u3092\u30af\u30ea\u30c3\u30af\u3057\u3001<strong>Nano Banana</strong>\u30e1\u30cb\u30e5\u30fc\u304b\u3089\u30b9\u30bf\u30a4\u30eb\u3092\u9078\u3073\u3001<strong>\u751f\u6210</strong>\u3092\u62bc\u3057\u3066\u304f\u3060\u3055\u3044\u3002',
+    step3_title: "3. \u30a2\u30cb\u30e1\u30fc\u30b7\u30e7\u30f3",
+    step3_desc: '<strong>Veo3 \u30d3\u30c7\u30aa</strong>\u304b\u3089\u30a8\u30d5\u30a7\u30af\u30c8\u3092\u9078\u3073\u3001<strong>\u751f\u6210</strong>\u3092\u30af\u30ea\u30c3\u30af\u3057\u3066\u77ed\u3044AI\u30d3\u30c7\u30aa\u30af\u30ea\u30c3\u30d7\u3092\u4f5c\u6210\u3002',
+    step4_title: "4. ASL\u4f1a\u8a71",
+    step4_desc: '\u30a6\u30a7\u30d6\u30ab\u30e0\u306eASL\u3067\u624b\u8a71 -- \u6642\u9593\u3092\u9078\u629e\u3057\u3001<strong>\u9332\u753b</strong>\u3092\u30af\u30ea\u30c3\u30af\u3059\u308b\u3068\u3001\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u304c\u624b\u8a71\u3092\u8aad\u307f\u53d6\u308a\u81ea\u7136\u8a00\u8a9e\u3067\u5fdc\u7b54\u3057\u307e\u3059\u3002',
+    type_naturally: "\u307e\u305f\u306f\u81ea\u7531\u306b\u5165\u529b",
+    type_naturally_desc: '\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u306f\u81ea\u7531\u5f62\u5f0f\u306e\u6307\u793a\u3092\u7406\u89e3\u3057\u307e\u3059\u3002\u4f8b\u3048\u3070\uff1a<br><span class="text-slate-300">\u300c\u5199\u771f\u3092\u64ae\u3063\u3066\u30b4\u30c3\u30db\u306e\u7d75\u753b\u306b\u5909\u63db\u3057\u3066\u300d</span><br><span class="text-slate-300">\u300c\u6700\u65b0\u306e\u753b\u50cf\u304b\u3089\u6620\u753b\u98a8\u30d3\u30c7\u30aa\u3092\u4f5c\u3063\u3066\u300d</span><br><span class="text-slate-300">\u300cavfoundation\u30d0\u30c3\u30af\u30a8\u30f3\u30c9\u3067\u30ab\u30e1\u30e91\u3092\u958b\u3044\u3066\u300d</span>',
+    outputs_note: '\u3059\u3079\u3066\u306e\u51fa\u529b\u306f<code class="bg-slate-700 px-1 rounded">outputs/</code>\u30d5\u30a9\u30eb\u30c0\u306b\u4fdd\u5b58\u3055\u308c\u3001\u4ee5\u4e0b\u306b\u8868\u793a\u3055\u308c\u307e\u3059\u3002',
+    placeholder_message: "\u30e1\u30c3\u30bb\u30fc\u30b8\u3092\u5165\u529b...",
+    send: "\u9001\u4fe1",
+    upload_failed: "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u5931\u6557\u3002",
+    upload_failed_retry: "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u5931\u6557\u3002\u518d\u8a66\u884c\u3057\u3066\u304f\u3060\u3055\u3044\u3002",
+    connection_error: "\u63a5\u7d9a\u30a8\u30e9\u30fc\u3002\u518d\u8a66\u884c\u3057\u3066\u304f\u3060\u3055\u3044\u3002",
+    session_error: "\u30a8\u30fc\u30b8\u30a7\u30f3\u30c8\u306b\u63a5\u7d9a\u3067\u304d\u307e\u305b\u3093\u3002\u30b5\u30fc\u30d0\u30fc\u306f\u8d77\u52d5\u3057\u3066\u3044\u307e\u3059\u304b\uff1f",
+  },
+  ko: {
+    title: "\ube44\uc804 \uc5d0\uc774\uc804\ud2b8",
+    camera_controls: "\uce74\uba54\ub77c \uc81c\uc5b4",
+    detect_cameras: "\uce74\uba54\ub77c \uac10\uc9c0",
+    no_cameras: "\uac10\uc9c0\ub41c \uce74\uba54\ub77c \uc5c6\uc74c",
+    open: "\uc5f4\uae30",
+    capture_upload: "\ucea1\ucc98 / \uc5c5\ub85c\ub4dc",
+    take_photo: "\uc0ac\uc9c4 \ucc0d\uae30",
+    upload_image: "\uc774\ubbf8\uc9c0 \uc5c5\ub85c\ub4dc",
+    nano_banana: "Nano Banana",
+    generate_image: "\uc774\ubbf8\uc9c0 \uc0dd\uc131",
+    veo3_video: "Veo3 \ube44\ub514\uc624",
+    generate_video: "\ube44\ub514\uc624 \uc0dd\uc131",
+    asl_interpreter: "ASL \ud1b5\uc5ed",
+    sec_30: "30\ucd08",
+    sec_90: "90\ucd08",
+    sec_120: "120\ucd08",
+    record: "\ub179\ud654",
+    stop_camera: "\uce74\uba54\ub77c \uc815\uc9c0",
+    welcome_title: "\ube44\uc804 \uc5d0\uc774\uc804\ud2b8\uc5d0 \uc624\uc2e0 \uac83\uc744 \ud658\uc601\ud569\ub2c8\ub2e4",
+    welcome_subtitle: "AI \uae30\ubc18 \uc6f9\ucea0 \ucea1\ucc98, \uc774\ubbf8\uc9c0 \ubcc0\ud658, \ube44\ub514\uc624 \uc0dd\uc131, ASL \ud1b5\uc5ed.",
+    step1_title: "1. \uce74\uba54\ub77c \uc124\uc815",
+    step1_desc: '\uc0ac\uc774\ub4dc\ubc14\uc5d0\uc11c <strong>\uce74\uba54\ub77c \uac10\uc9c0</strong>\ub97c \ud074\ub9ad\ud558\uace0, \uce74\uba54\ub77c\ub97c \uc120\ud0dd\ud55c \ub2e4\uc74c <strong>\uc5f4\uae30</strong>\ub97c \ud074\ub9ad\ud558\uc138\uc694.',
+    step2_title: "2. \ucea1\ucc98 \ubc0f \ubcc0\ud658",
+    step2_desc: '<strong>\uc0ac\uc9c4 \ucc0d\uae30</strong>\ub97c \ud074\ub9ad\ud558\uace0, <strong>Nano Banana</strong> \uba54\ub274\uc5d0\uc11c \uc2a4\ud0c0\uc77c\uc744 \uc120\ud0dd\ud55c \ub2e4\uc74c <strong>\uc0dd\uc131</strong>\uc744 \ub204\ub974\uc138\uc694.',
+    step3_title: "3. \uc560\ub2c8\uba54\uc774\uc158",
+    step3_desc: '<strong>Veo3 \ube44\ub514\uc624</strong>\uc5d0\uc11c \ud6a8\uacfc\ub97c \uc120\ud0dd\ud558\uace0 <strong>\uc0dd\uc131</strong>\uc744 \ud074\ub9ad\ud558\uc5ec \uc9e7\uc740 AI \ube44\ub514\uc624 \ud074\ub9bd\uc744 \ub9cc\ub4dc\uc138\uc694.',
+    step4_title: "4. ASL \ub300\ud654",
+    step4_desc: '\uc6f9\ucea0\uc73c\ub85c ASL \uc218\ud654 -- \uc2dc\uac04\uc744 \uc120\ud0dd\ud558\uace0 <strong>\ub179\ud654</strong>\ub97c \ud074\ub9ad\ud558\uba74 \uc5d0\uc774\uc804\ud2b8\uac00 \uc218\ud654\ub97c \uc77d\uace0 \uc790\uc5f0\uc5b4\ub85c \uc751\ub2f5\ud569\ub2c8\ub2e4.',
+    type_naturally: "\ub610\ub294 \uc790\uc720\ub86d\uac8c \uc785\ub825\ud558\uc138\uc694",
+    type_naturally_desc: '\uc5d0\uc774\uc804\ud2b8\ub294 \uc790\uc720 \ud615\uc2dd\uc758 \uc9c0\uc2dc\ub97c \uc774\ud574\ud569\ub2c8\ub2e4. \uc608\ub97c \ub4e4\uc5b4:<br><span class="text-slate-300">"\uc0ac\uc9c4\uc744 \ucc0d\uace0 \ubc18 \uace0\ud750 \uadf8\ub9bc\uc73c\ub85c \ubcc0\ud658\ud574\uc918"</span><br><span class="text-slate-300">"\ub0b4 \ucd5c\uc2e0 \uc774\ubbf8\uc9c0\ub85c \uc601\ud654\uac19\uc740 \ube44\ub514\uc624\ub97c \ub9cc\ub4e4\uc5b4\uc918"</span><br><span class="text-slate-300">"avfoundation \ubc31\uc5d4\ub4dc\ub85c \uce74\uba54\ub77c 1 \uc5f4\uae30"</span>',
+    outputs_note: '\ubaa8\ub4e0 \uacb0\uacfc\ub294 <code class="bg-slate-700 px-1 rounded">outputs/</code> \ud3f4\ub354\uc5d0 \uc800\uc7a5\ub418\uba70 \uc544\ub798\uc5d0 \ud45c\uc2dc\ub429\ub2c8\ub2e4.',
+    placeholder_message: "\uba54\uc2dc\uc9c0\ub97c \uc785\ub825\ud558\uc138\uc694...",
+    send: "\ubcf4\ub0b4\uae30",
+    upload_failed: "\uc5c5\ub85c\ub4dc \uc2e4\ud328.",
+    upload_failed_retry: "\uc5c5\ub85c\ub4dc \uc2e4\ud328. \ub2e4\uc2dc \uc2dc\ub3c4\ud574\uc8fc\uc138\uc694.",
+    connection_error: "\uc5f0\uacb0 \uc624\ub958. \ub2e4\uc2dc \uc2dc\ub3c4\ud574\uc8fc\uc138\uc694.",
+    session_error: "\uc5d0\uc774\uc804\ud2b8\uc5d0 \uc5f0\uacb0\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \uc11c\ubc84\uac00 \uc2e4\ud589 \uc911\uc778\uac00\uc694?",
+  },
+  zh: {
+    title: "\u89c6\u89c9\u4ee3\u7406",
+    camera_controls: "\u6444\u50cf\u5934\u63a7\u5236",
+    detect_cameras: "\u68c0\u6d4b\u6444\u50cf\u5934",
+    no_cameras: "\u672a\u68c0\u6d4b\u5230\u6444\u50cf\u5934",
+    open: "\u6253\u5f00",
+    capture_upload: "\u62cd\u6444 / \u4e0a\u4f20",
+    take_photo: "\u62cd\u7167",
+    upload_image: "\u4e0a\u4f20\u56fe\u7247",
+    nano_banana: "Nano Banana",
+    generate_image: "\u751f\u6210\u56fe\u7247",
+    veo3_video: "Veo3 \u89c6\u9891",
+    generate_video: "\u751f\u6210\u89c6\u9891",
+    asl_interpreter: "ASL\u7ffb\u8bd1",
+    sec_30: "30\u79d2",
+    sec_90: "90\u79d2",
+    sec_120: "120\u79d2",
+    record: "\u5f55\u5236",
+    stop_camera: "\u505c\u6b62\u6444\u50cf\u5934",
+    welcome_title: "\u6b22\u8fce\u4f7f\u7528\u89c6\u89c9\u4ee3\u7406",
+    welcome_subtitle: "AI\u9a71\u52a8\u7684\u6444\u50cf\u5934\u6355\u6349\u3001\u56fe\u50cf\u53d8\u6362\u3001\u89c6\u9891\u751f\u6210\u548cASL\u7ffb\u8bd1\u3002",
+    step1_title: "1. \u8bbe\u7f6e\u6444\u50cf\u5934",
+    step1_desc: '\u5728\u4fa7\u8fb9\u680f\u70b9\u51fb<strong>\u68c0\u6d4b\u6444\u50cf\u5934</strong>\uff0c\u9009\u62e9\u4f60\u7684\u6444\u50cf\u5934\u5e76\u70b9\u51fb<strong>\u6253\u5f00</strong>\u3002',
+    step2_title: "2. \u62cd\u6444\u4e0e\u53d8\u6362",
+    step2_desc: '\u70b9\u51fb<strong>\u62cd\u7167</strong>\uff0c\u4ece<strong>Nano Banana</strong>\u83dc\u5355\u9009\u62e9\u98ce\u683c\uff0c\u7136\u540e\u6309<strong>\u751f\u6210</strong>\u3002',
+    step3_title: "3. \u52a8\u753b",
+    step3_desc: '\u4ece<strong>Veo3 \u89c6\u9891</strong>\u9009\u62e9\u6548\u679c\uff0c\u70b9\u51fb<strong>\u751f\u6210</strong>\u521b\u5efa\u77ed\u7247AI\u89c6\u9891\u3002',
+    step4_title: "4. ASL\u5bf9\u8bdd",
+    step4_desc: '\u901a\u8fc7\u6444\u50cf\u5934\u4f7f\u7528ASL\u624b\u8bed -- \u9009\u62e9\u65f6\u957f\uff0c\u70b9\u51fb<strong>\u5f55\u5236</strong>\uff0c\u4ee3\u7406\u4f1a\u8bfb\u53d6\u4f60\u7684\u624b\u8bed\u5e76\u7528\u81ea\u7136\u8bed\u8a00\u56de\u590d\u3002',
+    type_naturally: "\u6216\u8005\u76f4\u63a5\u8f93\u5165",
+    type_naturally_desc: '\u4ee3\u7406\u7406\u89e3\u81ea\u7531\u683c\u5f0f\u7684\u6307\u4ee4\u3002\u8bd5\u8bd5\uff1a<br><span class="text-slate-300">\u201c\u62cd\u4e00\u5f20\u7167\u7247\u5e76\u53d8\u6210\u68b5\u9ad8\u7684\u753b\u201d</span><br><span class="text-slate-300">\u201c\u7528\u6211\u6700\u65b0\u7684\u56fe\u7247\u505a\u4e00\u4e2a\u7535\u5f71\u98ce\u683c\u7684\u89c6\u9891\u201d</span><br><span class="text-slate-300">\u201c\u7528avfoundation\u540e\u7aef\u6253\u5f00\u6444\u50cf\u59341\u201d</span>',
+    outputs_note: '\u6240\u6709\u8f93\u51fa\u4fdd\u5b58\u5728<code class="bg-slate-700 px-1 rounded">outputs/</code>\u6587\u4ef6\u5939\u4e2d\uff0c\u5e76\u5728\u4e0b\u65b9\u663e\u793a\u3002',
+    placeholder_message: "\u8f93\u5165\u6d88\u606f...",
+    send: "\u53d1\u9001",
+    upload_failed: "\u4e0a\u4f20\u5931\u8d25\u3002",
+    upload_failed_retry: "\u4e0a\u4f20\u5931\u8d25\u3002\u8bf7\u91cd\u8bd5\u3002",
+    connection_error: "\u8fde\u63a5\u9519\u8bef\u3002\u8bf7\u91cd\u8bd5\u3002",
+    session_error: "\u65e0\u6cd5\u8fde\u63a5\u5230\u4ee3\u7406\u3002\u670d\u52a1\u5668\u662f\u5426\u6b63\u5728\u8fd0\u884c\uff1f",
+  },
+  ar: {
+    title: "\u0648\u0643\u064a\u0644 \u0627\u0644\u0631\u0624\u064a\u0629",
+    camera_controls: "\u0623\u062f\u0648\u0627\u062a \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627",
+    detect_cameras: "\u0627\u0643\u062a\u0634\u0627\u0641 \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627\u062a",
+    no_cameras: "\u0644\u0645 \u064a\u062a\u0645 \u0627\u0643\u062a\u0634\u0627\u0641 \u0643\u0627\u0645\u064a\u0631\u0627\u062a",
+    open: "\u0641\u062a\u062d",
+    capture_upload: "\u0627\u0644\u062a\u0642\u0627\u0637 / \u0631\u0641\u0639",
+    take_photo: "\u0627\u0644\u062a\u0642\u0627\u0637 \u0635\u0648\u0631\u0629",
+    upload_image: "\u0631\u0641\u0639 \u0635\u0648\u0631\u0629",
+    nano_banana: "Nano Banana",
+    generate_image: "\u062a\u0648\u0644\u064a\u062f \u0635\u0648\u0631\u0629",
+    veo3_video: "Veo3 \u0641\u064a\u062f\u064a\u0648",
+    generate_video: "\u062a\u0648\u0644\u064a\u062f \u0641\u064a\u062f\u064a\u0648",
+    asl_interpreter: "\u0645\u062a\u0631\u062c\u0645 ASL",
+    sec_30: "30 \u062b\u0627\u0646\u064a\u0629",
+    sec_90: "90 \u062b\u0627\u0646\u064a\u0629",
+    sec_120: "120 \u062b\u0627\u0646\u064a\u0629",
+    record: "\u062a\u0633\u062c\u064a\u0644",
+    stop_camera: "\u0625\u064a\u0642\u0627\u0641 \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627",
+    welcome_title: "\u0645\u0631\u062d\u0628\u064b\u0627 \u0628\u0648\u0643\u064a\u0644 \u0627\u0644\u0631\u0624\u064a\u0629",
+    welcome_subtitle: "\u0627\u0644\u062a\u0642\u0627\u0637 \u0643\u0627\u0645\u064a\u0631\u0627 \u0627\u0644\u0648\u064a\u0628\u060c \u062a\u062d\u0648\u064a\u0644 \u0627\u0644\u0635\u0648\u0631\u060c \u062a\u0648\u0644\u064a\u062f \u0627\u0644\u0641\u064a\u062f\u064a\u0648 \u0648\u062a\u0631\u062c\u0645\u0629 ASL \u0628\u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064a.",
+    step1_title: "1. \u0625\u0639\u062f\u0627\u062f \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627",
+    step1_desc: '\u0627\u0646\u0642\u0631 \u0639\u0644\u0649 <strong>\u0627\u0643\u062a\u0634\u0627\u0641 \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627\u062a</strong> \u0641\u064a \u0627\u0644\u0634\u0631\u064a\u0637 \u0627\u0644\u062c\u0627\u0646\u0628\u064a\u060c \u0627\u062e\u062a\u0631 \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627 \u0648\u0627\u0646\u0642\u0631 <strong>\u0641\u062a\u062d</strong>.',
+    step2_title: "2. \u0627\u0644\u062a\u0642\u0627\u0637 \u0648\u062a\u062d\u0648\u064a\u0644",
+    step2_desc: '\u0627\u0646\u0642\u0631 \u0639\u0644\u0649 <strong>\u0627\u0644\u062a\u0642\u0627\u0637 \u0635\u0648\u0631\u0629</strong>\u060c \u0627\u062e\u062a\u0631 \u0646\u0645\u0637\u064b\u0627 \u0645\u0646 \u0642\u0627\u0626\u0645\u0629 <strong>Nano Banana</strong> \u0648\u0627\u0636\u063a\u0637 <strong>\u062a\u0648\u0644\u064a\u062f</strong>.',
+    step3_title: "3. \u062a\u062d\u0631\u064a\u0643",
+    step3_desc: '\u0627\u062e\u062a\u0631 \u062a\u0623\u062b\u064a\u0631\u064b\u0627 \u0645\u0646 <strong>Veo3 \u0641\u064a\u062f\u064a\u0648</strong> \u0648\u0627\u0646\u0642\u0631 <strong>\u062a\u0648\u0644\u064a\u062f</strong> \u0644\u0625\u0646\u0634\u0627\u0621 \u0645\u0642\u0637\u0639 \u0641\u064a\u062f\u064a\u0648 \u0642\u0635\u064a\u0631 \u0628\u0627\u0644\u0630\u0643\u0627\u0621 \u0627\u0644\u0627\u0635\u0637\u0646\u0627\u0639\u064a.',
+    step4_title: "4. \u0645\u062d\u0627\u062f\u062b\u0629 ASL",
+    step4_desc: '\u0627\u0633\u062a\u062e\u062f\u0645 \u0644\u063a\u0629 \u0627\u0644\u0625\u0634\u0627\u0631\u0629 ASL \u0639\u0628\u0631 \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627 -- \u062d\u062f\u062f \u0627\u0644\u0645\u062f\u0629\u060c \u0627\u0646\u0642\u0631 <strong>\u062a\u0633\u062c\u064a\u0644</strong>\u060c \u0648\u0627\u0644\u0648\u0643\u064a\u0644 \u064a\u0642\u0631\u0623 \u0625\u0634\u0627\u0631\u0627\u062a\u0643 \u0648\u064a\u0631\u062f \u0628\u0644\u063a\u0629 \u0637\u0628\u064a\u0639\u064a\u0629.',
+    type_naturally: "\u0623\u0648 \u0627\u0643\u062a\u0628 \u0628\u062d\u0631\u064a\u0629",
+    type_naturally_desc: '\u0627\u0644\u0648\u0643\u064a\u0644 \u064a\u0641\u0647\u0645 \u0627\u0644\u0623\u0648\u0627\u0645\u0631 \u0627\u0644\u0646\u0635\u064a\u0629 \u0627\u0644\u062d\u0631\u0629. \u062c\u0631\u0628 \u0645\u062b\u0644\u0627\u064b:<br><span class="text-slate-300">"\u0627\u0644\u062a\u0642\u0637 \u0635\u0648\u0631\u0629 \u0648\u062d\u0648\u0644\u0647\u0627 \u0625\u0644\u0649 \u0644\u0648\u062d\u0629 \u0641\u0627\u0646 \u063a\u0648\u062e"</span><br><span class="text-slate-300">"\u0627\u0635\u0646\u0639 \u0641\u064a\u062f\u064a\u0648 \u0633\u064a\u0646\u0645\u0627\u0626\u064a \u0645\u0646 \u0622\u062e\u0631 \u0635\u0648\u0631\u0629"</span><br><span class="text-slate-300">"\u0627\u0641\u062a\u062d \u0627\u0644\u0643\u0627\u0645\u064a\u0631\u0627 1 \u0628\u0648\u0627\u062c\u0647\u0629 avfoundation"</span>',
+    outputs_note: '\u062c\u0645\u064a\u0639 \u0627\u0644\u0645\u062e\u0631\u062c\u0627\u062a \u0645\u062d\u0641\u0648\u0638\u0629 \u0641\u064a \u0645\u062c\u0644\u062f <code class="bg-slate-700 px-1 rounded">outputs/</code> \u0648\u0645\u0639\u0631\u0648\u0636\u0629 \u0623\u062f\u0646\u0627\u0647.',
+    placeholder_message: "\u0627\u0643\u062a\u0628 \u0631\u0633\u0627\u0644\u0629...",
+    send: "\u0625\u0631\u0633\u0627\u0644",
+    upload_failed: "\u0641\u0634\u0644 \u0627\u0644\u0631\u0641\u0639.",
+    upload_failed_retry: "\u0641\u0634\u0644 \u0627\u0644\u0631\u0641\u0639. \u062d\u0627\u0648\u0644 \u0645\u0631\u0629 \u0623\u062e\u0631\u0649.",
+    connection_error: "\u062e\u0637\u0623 \u0641\u064a \u0627\u0644\u0627\u062a\u0635\u0627\u0644. \u062d\u0627\u0648\u0644 \u0645\u0631\u0629 \u0623\u062e\u0631\u0649.",
+    session_error: "\u062a\u0639\u0630\u0631 \u0627\u0644\u0627\u062a\u0635\u0627\u0644 \u0628\u0627\u0644\u0648\u0643\u064a\u0644. \u0647\u0644 \u0627\u0644\u062e\u0627\u062f\u0645 \u064a\u0639\u0645\u0644\u061f",
+  },
+  hi: {
+    title: "\u0935\u093f\u091c\u093c\u0928 \u090f\u091c\u0947\u0902\u091f",
+    camera_controls: "\u0915\u0948\u092e\u0930\u093e \u0928\u093f\u092f\u0902\u0924\u094d\u0930\u0923",
+    detect_cameras: "\u0915\u0948\u092e\u0930\u093e \u0916\u094b\u091c\u0947\u0902",
+    no_cameras: "\u0915\u094b\u0908 \u0915\u0948\u092e\u0930\u093e \u0928\u0939\u0940\u0902 \u092e\u093f\u0932\u093e",
+    open: "\u0916\u094b\u0932\u0947\u0902",
+    capture_upload: "\u0915\u0948\u092a\u094d\u091a\u0930 / \u0905\u092a\u0932\u094b\u0921",
+    take_photo: "\u092b\u093c\u094b\u091f\u094b \u0932\u0947\u0902",
+    upload_image: "\u091b\u0935\u093f \u0905\u092a\u0932\u094b\u0921 \u0915\u0930\u0947\u0902",
+    nano_banana: "Nano Banana",
+    generate_image: "\u091b\u0935\u093f \u092c\u0928\u093e\u090f\u0902",
+    veo3_video: "Veo3 \u0935\u0940\u0921\u093f\u092f\u094b",
+    generate_video: "\u0935\u0940\u0921\u093f\u092f\u094b \u092c\u0928\u093e\u090f\u0902",
+    asl_interpreter: "ASL \u0926\u0941\u092d\u093e\u0937\u093f\u092f\u093e",
+    sec_30: "30 \u0938\u0947\u0915\u0902\u0921",
+    sec_90: "90 \u0938\u0947\u0915\u0902\u0921",
+    sec_120: "120 \u0938\u0947\u0915\u0902\u0921",
+    record: "\u0930\u093f\u0915\u0949\u0930\u094d\u0921",
+    stop_camera: "\u0915\u0948\u092e\u0930\u093e \u092c\u0902\u0926 \u0915\u0930\u0947\u0902",
+    welcome_title: "\u0935\u093f\u091c\u093c\u0928 \u090f\u091c\u0947\u0902\u091f \u092e\u0947\u0902 \u0906\u092a\u0915\u093e \u0938\u094d\u0935\u093e\u0917\u0924 \u0939\u0948",
+    welcome_subtitle: "AI-\u0938\u0902\u091a\u093e\u0932\u093f\u0924 \u0935\u0947\u092c\u0915\u0948\u092e \u0915\u0948\u092a\u094d\u091a\u0930, \u091b\u0935\u093f \u0930\u0942\u092a\u093e\u0902\u0924\u0930\u0923, \u0935\u0940\u0921\u093f\u092f\u094b \u0928\u093f\u0930\u094d\u092e\u093e\u0923 \u0914\u0930 ASL \u0926\u0941\u092d\u093e\u0937\u093f\u092f\u093e\u0964",
+    step1_title: "1. \u0915\u0948\u092e\u0930\u093e \u0938\u0947\u091f\u0905\u092a",
+    step1_desc: '\u0938\u093e\u0907\u0921\u092c\u093e\u0930 \u092e\u0947\u0902 <strong>\u0915\u0948\u092e\u0930\u093e \u0916\u094b\u091c\u0947\u0902</strong> \u092a\u0930 \u0915\u094d\u0932\u093f\u0915 \u0915\u0930\u0947\u0902, \u0905\u092a\u0928\u093e \u0915\u0948\u092e\u0930\u093e \u091a\u0941\u0928\u0947\u0902 \u0914\u0930 <strong>\u0916\u094b\u0932\u0947\u0902</strong> \u092a\u0930 \u0915\u094d\u0932\u093f\u0915 \u0915\u0930\u0947\u0902\u0964',
+    step2_title: "2. \u0915\u0948\u092a\u094d\u091a\u0930 \u0914\u0930 \u0930\u0942\u092a\u093e\u0902\u0924\u0930\u0923",
+    step2_desc: '<strong>\u092b\u093c\u094b\u091f\u094b \u0932\u0947\u0902</strong> \u092a\u0930 \u0915\u094d\u0932\u093f\u0915 \u0915\u0930\u0947\u0902, <strong>Nano Banana</strong> \u092e\u0947\u0928\u0942 \u0938\u0947 \u0936\u0948\u0932\u0940 \u091a\u0941\u0928\u0947\u0902 \u0914\u0930 <strong>\u092c\u0928\u093e\u090f\u0902</strong> \u0926\u092c\u093e\u090f\u0902\u0964',
+    step3_title: "3. \u090f\u0928\u093f\u092e\u0947\u091f",
+    step3_desc: '<strong>Veo3 \u0935\u0940\u0921\u093f\u092f\u094b</strong> \u0938\u0947 \u092a\u094d\u0930\u092d\u093e\u0935 \u091a\u0941\u0928\u0947\u0902 \u0914\u0930 \u091b\u094b\u091f\u0940 AI \u0935\u0940\u0921\u093f\u092f\u094b \u0915\u094d\u0932\u093f\u092a \u092c\u0928\u093e\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f <strong>\u092c\u0928\u093e\u090f\u0902</strong> \u092a\u0930 \u0915\u094d\u0932\u093f\u0915 \u0915\u0930\u0947\u0902\u0964',
+    step4_title: "4. ASL \u0935\u093e\u0930\u094d\u0924\u093e\u0932\u093e\u092a",
+    step4_desc: '\u0935\u0947\u092c\u0915\u0948\u092e \u0938\u0947 ASL \u0938\u093e\u0902\u0915\u0947\u0924\u093f\u0915 \u092d\u093e\u0937\u093e -- \u0905\u0935\u0927\u093f \u091a\u0941\u0928\u0947\u0902, <strong>\u0930\u093f\u0915\u0949\u0930\u094d\u0921</strong> \u092a\u0930 \u0915\u094d\u0932\u093f\u0915 \u0915\u0930\u0947\u0902, \u0914\u0930 \u090f\u091c\u0947\u0902\u091f \u0906\u092a\u0915\u0947 \u0938\u0902\u0915\u0947\u0924\u094b\u0902 \u0915\u094b \u092a\u0922\u093c\u0915\u0930 \u0938\u094d\u0935\u093e\u092d\u093e\u0935\u093f\u0915 \u092d\u093e\u0937\u093e \u092e\u0947\u0902 \u0909\u0924\u094d\u0924\u0930 \u0926\u0947\u0917\u093e\u0964',
+    type_naturally: "\u092f\u093e \u092c\u0938 \u091f\u093e\u0907\u092a \u0915\u0930\u0947\u0902",
+    type_naturally_desc: '\u090f\u091c\u0947\u0902\u091f \u092e\u0941\u0915\u094d\u0924 \u092a\u093e\u0920 \u0928\u093f\u0930\u094d\u0926\u0947\u0936 \u0938\u092e\u091d\u0924\u093e \u0939\u0948\u0964 \u0907\u0938 \u0924\u0930\u0939 \u0915\u094b\u0936\u093f\u0936 \u0915\u0930\u0947\u0902:<br><span class="text-slate-300">"\u090f\u0915 \u092b\u093c\u094b\u091f\u094b \u0932\u0947\u0902 \u0914\u0930 \u0907\u0938\u0947 \u0935\u0948\u0928 \u0917\u0949\u0917 \u0915\u0940 \u092a\u0947\u0902\u091f\u093f\u0902\u0917 \u092e\u0947\u0902 \u092c\u0926\u0932\u0947\u0902"</span><br><span class="text-slate-300">"\u092e\u0947\u0930\u0940 \u0928\u0935\u0940\u0928\u0924\u092e \u091b\u0935\u093f \u0938\u0947 \u0938\u093f\u0928\u0947\u092e\u0948\u091f\u093f\u0915 \u0935\u0940\u0921\u093f\u092f\u094b \u092c\u0928\u093e\u090f\u0902"</span><br><span class="text-slate-300">"avfoundation \u092c\u0948\u0915\u0947\u0902\u0921 \u0938\u0947 \u0915\u0948\u092e\u0930\u093e 1 \u0916\u094b\u0932\u0947\u0902"</span>',
+    outputs_note: '\u0938\u092d\u0940 \u0906\u0909\u091f\u092a\u0941\u091f <code class="bg-slate-700 px-1 rounded">outputs/</code> \u092b\u093c\u094b\u0932\u094d\u0921\u0930 \u092e\u0947\u0902 \u0938\u0939\u0947\u091c\u0947 \u091c\u093e\u0924\u0947 \u0939\u0948\u0902 \u0914\u0930 \u0928\u0940\u091a\u0947 \u092a\u094d\u0930\u0926\u0930\u094d\u0936\u093f\u0924 \u0939\u094b\u0924\u0947 \u0939\u0948\u0902\u0964',
+    placeholder_message: "\u0938\u0902\u0926\u0947\u0936 \u0932\u093f\u0916\u0947\u0902...",
+    send: "\u092d\u0947\u091c\u0947\u0902",
+    upload_failed: "\u0905\u092a\u0932\u094b\u0921 \u0935\u093f\u092b\u0932\u0964",
+    upload_failed_retry: "\u0905\u092a\u0932\u094b\u0921 \u0935\u093f\u092b\u0932\u0964 \u0915\u0943\u092a\u092f\u093e \u092a\u0941\u0928\u0903 \u092a\u094d\u0930\u092f\u093e\u0938 \u0915\u0930\u0947\u0902\u0964",
+    connection_error: "\u0915\u0928\u0947\u0915\u094d\u0936\u0928 \u0924\u094d\u0930\u0941\u091f\u093f\u0964 \u0915\u0943\u092a\u092f\u093e \u092a\u0941\u0928\u0903 \u092a\u094d\u0930\u092f\u093e\u0938 \u0915\u0930\u0947\u0902\u0964",
+    session_error: "\u090f\u091c\u0947\u0902\u091f \u0938\u0947 \u0915\u0928\u0947\u0915\u094d\u091f \u0928\u0939\u0940\u0902 \u0939\u094b \u0938\u0915\u093e\u0964 \u0915\u094d\u092f\u093e \u0938\u0930\u094d\u0935\u0930 \u091a\u0932 \u0930\u0939\u093e \u0939\u0948?",
+  },
+  ru: {
+    title: "\u0410\u0433\u0435\u043d\u0442 \u0437\u0440\u0435\u043d\u0438\u044f",
+    camera_controls: "\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043a\u0430\u043c\u0435\u0440\u043e\u0439",
+    detect_cameras: "\u041e\u0431\u043d\u0430\u0440\u0443\u0436\u0438\u0442\u044c \u043a\u0430\u043c\u0435\u0440\u044b",
+    no_cameras: "\u041a\u0430\u043c\u0435\u0440\u044b \u043d\u0435 \u043e\u0431\u043d\u0430\u0440\u0443\u0436\u0435\u043d\u044b",
+    open: "\u041e\u0442\u043a\u0440\u044b\u0442\u044c",
+    capture_upload: "\u0421\u043d\u044f\u0442\u044c / \u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c",
+    take_photo: "\u0421\u0434\u0435\u043b\u0430\u0442\u044c \u0444\u043e\u0442\u043e",
+    upload_image: "\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435",
+    nano_banana: "Nano Banana",
+    generate_image: "\u0421\u0433\u0435\u043d\u0435\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435",
+    veo3_video: "Veo3 \u0412\u0438\u0434\u0435\u043e",
+    generate_video: "\u0421\u0433\u0435\u043d\u0435\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432\u0438\u0434\u0435\u043e",
+    asl_interpreter: "\u041f\u0435\u0440\u0435\u0432\u043e\u0434\u0447\u0438\u043a ASL",
+    sec_30: "30 \u0441\u0435\u043a\u0443\u043d\u0434",
+    sec_90: "90 \u0441\u0435\u043a\u0443\u043d\u0434",
+    sec_120: "120 \u0441\u0435\u043a\u0443\u043d\u0434",
+    record: "\u0417\u0430\u043f\u0438\u0441\u044c",
+    stop_camera: "\u041e\u0441\u0442\u0430\u043d\u043e\u0432\u0438\u0442\u044c \u043a\u0430\u043c\u0435\u0440\u0443",
+    welcome_title: "\u0414\u043e\u0431\u0440\u043e \u043f\u043e\u0436\u0430\u043b\u043e\u0432\u0430\u0442\u044c \u0432 \u0410\u0433\u0435\u043d\u0442 \u0437\u0440\u0435\u043d\u0438\u044f",
+    welcome_subtitle: "\u0412\u0435\u0431-\u043a\u0430\u043c\u0435\u0440\u0430 \u0441 \u0418\u0418, \u0442\u0440\u0430\u043d\u0441\u0444\u043e\u0440\u043c\u0430\u0446\u0438\u044f \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0439, \u0433\u0435\u043d\u0435\u0440\u0430\u0446\u0438\u044f \u0432\u0438\u0434\u0435\u043e \u0438 \u043f\u0435\u0440\u0435\u0432\u043e\u0434 ASL.",
+    step1_title: "1. \u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430 \u043a\u0430\u043c\u0435\u0440\u044b",
+    step1_desc: '\u041d\u0430\u0436\u043c\u0438\u0442\u0435 <strong>\u041e\u0431\u043d\u0430\u0440\u0443\u0436\u0438\u0442\u044c \u043a\u0430\u043c\u0435\u0440\u044b</strong> \u043d\u0430 \u0431\u043e\u043a\u043e\u0432\u043e\u0439 \u043f\u0430\u043d\u0435\u043b\u0438, \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043a\u0430\u043c\u0435\u0440\u0443 \u0438 \u043d\u0430\u0436\u043c\u0438\u0442\u0435 <strong>\u041e\u0442\u043a\u0440\u044b\u0442\u044c</strong>.',
+    step2_title: "2. \u0421\u043d\u044f\u0442\u044c \u0438 \u043f\u0440\u0435\u043e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u0442\u044c",
+    step2_desc: '\u041d\u0430\u0436\u043c\u0438\u0442\u0435 <strong>\u0421\u0434\u0435\u043b\u0430\u0442\u044c \u0444\u043e\u0442\u043e</strong>, \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0441\u0442\u0438\u043b\u044c \u0438\u0437 \u043c\u0435\u043d\u044e <strong>Nano Banana</strong> \u0438 \u043d\u0430\u0436\u043c\u0438\u0442\u0435 <strong>\u0421\u0433\u0435\u043d\u0435\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c</strong>.',
+    step3_title: "3. \u0410\u043d\u0438\u043c\u0430\u0446\u0438\u044f",
+    step3_desc: '\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u044d\u0444\u0444\u0435\u043a\u0442 \u0438\u0437 <strong>Veo3 \u0412\u0438\u0434\u0435\u043e</strong> \u0438 \u043d\u0430\u0436\u043c\u0438\u0442\u0435 <strong>\u0421\u0433\u0435\u043d\u0435\u0440\u0438\u0440\u043e\u0432\u0430\u0442\u044c</strong> \u0434\u043b\u044f \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f \u043a\u043e\u0440\u043e\u0442\u043a\u043e\u0433\u043e \u0418\u0418-\u0432\u0438\u0434\u0435\u043e\u043a\u043b\u0438\u043f\u0430.',
+    step4_title: "4. \u0411\u0435\u0441\u0435\u0434\u0430 ASL",
+    step4_desc: '\u0418\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0439\u0442\u0435 \u0436\u0435\u0441\u0442\u043e\u0432\u044b\u0439 \u044f\u0437\u044b\u043a ASL \u043f\u0435\u0440\u0435\u0434 \u043a\u0430\u043c\u0435\u0440\u043e\u0439 -- \u0432\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u0435\u043b\u044c\u043d\u043e\u0441\u0442\u044c, \u043d\u0430\u0436\u043c\u0438\u0442\u0435 <strong>\u0417\u0430\u043f\u0438\u0441\u044c</strong>, \u0438 \u0430\u0433\u0435\u043d\u0442 \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u0435\u0442 \u0432\u0430\u0448\u0438 \u0436\u0435\u0441\u0442\u044b \u0438 \u043e\u0442\u0432\u0435\u0442\u0438\u0442 \u043d\u0430 \u0435\u0441\u0442\u0435\u0441\u0442\u0432\u0435\u043d\u043d\u043e\u043c \u044f\u0437\u044b\u043a\u0435.',
+    type_naturally: "\u0418\u043b\u0438 \u043f\u0440\u043e\u0441\u0442\u043e \u043f\u0438\u0448\u0438\u0442\u0435",
+    type_naturally_desc: '\u0410\u0433\u0435\u043d\u0442 \u043f\u043e\u043d\u0438\u043c\u0430\u0435\u0442 \u0441\u0432\u043e\u0431\u043e\u0434\u043d\u044b\u0435 \u0442\u0435\u043a\u0441\u0442\u043e\u0432\u044b\u0435 \u043a\u043e\u043c\u0430\u043d\u0434\u044b. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043d\u0430\u043f\u0440\u0438\u043c\u0435\u0440:<br><span class="text-slate-300">"\u0421\u0434\u0435\u043b\u0430\u0439 \u0444\u043e\u0442\u043e \u0438 \u043f\u0440\u0435\u0432\u0440\u0430\u0442\u0438 \u0432 \u043a\u0430\u0440\u0442\u0438\u043d\u0443 \u0412\u0430\u043d \u0413\u043e\u0433\u0430"</span><br><span class="text-slate-300">"\u0421\u043e\u0437\u0434\u0430\u0439 \u043a\u0438\u043d\u0435\u043c\u0430\u0442\u043e\u0433\u0440\u0430\u0444\u0438\u0447\u0435\u0441\u043a\u043e\u0435 \u0432\u0438\u0434\u0435\u043e \u0438\u0437 \u043c\u043e\u0435\u0433\u043e \u043f\u043e\u0441\u043b\u0435\u0434\u043d\u0435\u0433\u043e \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f"</span><br><span class="text-slate-300">"\u041e\u0442\u043a\u0440\u043e\u0439 \u043a\u0430\u043c\u0435\u0440\u0443 1 \u0441 \u0431\u044d\u043a\u0435\u043d\u0434\u043e\u043c avfoundation"</span>',
+    outputs_note: '\u0412\u0441\u0435 \u0440\u0435\u0437\u0443\u043b\u044c\u0442\u0430\u0442\u044b \u0441\u043e\u0445\u0440\u0430\u043d\u044f\u044e\u0442\u0441\u044f \u0432 \u043f\u0430\u043f\u043a\u0435 <code class="bg-slate-700 px-1 rounded">outputs/</code> \u0438 \u043e\u0442\u043e\u0431\u0440\u0430\u0436\u0430\u044e\u0442\u0441\u044f \u043d\u0438\u0436\u0435.',
+    placeholder_message: "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0441\u043e\u043e\u0431\u0449\u0435\u043d\u0438\u0435...",
+    send: "\u041e\u0442\u043f\u0440\u0430\u0432\u0438\u0442\u044c",
+    upload_failed: "\u041e\u0448\u0438\u0431\u043a\u0430 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438.",
+    upload_failed_retry: "\u041e\u0448\u0438\u0431\u043a\u0430 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0441\u043d\u043e\u0432\u0430.",
+    connection_error: "\u041e\u0448\u0438\u0431\u043a\u0430 \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u0441\u043d\u043e\u0432\u0430.",
+    session_error: "\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0438\u0442\u044c\u0441\u044f \u043a \u0430\u0433\u0435\u043d\u0442\u0443. \u0421\u0435\u0440\u0432\u0435\u0440 \u0437\u0430\u043f\u0443\u0449\u0435\u043d?",
+  },
+};
+
+let currentLang = "en";
+
+function t(key) {
+  return (i18n[currentLang] && i18n[currentLang][key]) || i18n.en[key] || key;
+}
+
+function setLanguage(lang) {
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(el => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
 }
 
 const APP_NAME = "kagent_vision";
@@ -255,7 +770,7 @@ async function createSession() {
     console.log("Session created:", sessionId);
   } catch (err) {
     console.error("Failed to create session:", err);
-    appendMessage("system", "Failed to connect to agent. Is the server running?");
+    appendMessage("system", t("session_error"));
   }
 }
 
@@ -297,7 +812,7 @@ async function sendMessage(text) {
     await handleSSEStream(resp);
   } catch (err) {
     console.error("SSE error:", err);
-    appendMessage("system", "Connection error. Please try again.");
+    appendMessage("system", t("connection_error"));
   }
 
   hideToolIndicator();
@@ -519,11 +1034,11 @@ async function handleUpload(event) {
       // Tell the agent about the uploaded file so it can use it
       sendMessage(`I uploaded an image file. It is saved at ${data.path}. Please use this image for any future transformations or video generation.`);
     } else {
-      appendMessage("system", "Upload failed.");
+      appendMessage("system", t("upload_failed"));
     }
   } catch (err) {
     console.error("Upload error:", err);
-    appendMessage("system", "Upload failed. Please try again.");
+    appendMessage("system", t("upload_failed_retry"));
   }
 
   // Reset the file input so the same file can be re-uploaded
