@@ -1,7 +1,7 @@
 """
 KAgent Vision - Agent Definition
 
-AI-powered vision agent combining webcam capture, Nano Banana image
+AI-powered vision agent combining webcam capture, Nano Banana 2 image
 transformation, Veo3 video generation, and ASL interpretation.
 """
 
@@ -32,10 +32,10 @@ Veo3, and interpret American Sign Language.
 - **list_images(directory, recursive)** -- Scan a directory for image files (jpg, png, webp, etc.).
   Use this when the user wants to work with an existing photo instead of the webcam.
 
-## Nano Banana (AI Image Generation)
+## Nano Banana 2 (AI Image Generation)
 - **banana_generate(prompt, input_paths, out_dir, model, n)** -- Generate AI image(s)
   from a text prompt, optionally guided by input image(s).
-  Default model: gemini-3-pro-image-preview.
+  Default model: gemini-3.1-flash-image-preview (Nano Banana 2 — 4K output, Pro quality at Flash speed).
   Use cases: style transforms, poster mockups, cinematic selfies, sketch variations.
 
 ## Veo3 (AI Video Generation)

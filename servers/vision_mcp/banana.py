@@ -1,4 +1,4 @@
-"""Nano Banana: AI image generation / transformation via Google Gemini Image Generation API."""
+"""Nano Banana 2: AI image generation / transformation via Google Gemini Image Generation API."""
 
 import os
 import time
@@ -14,7 +14,7 @@ def banana_generate(
     prompt: str,
     input_paths: list[str] | None = None,
     out_dir: str = "outputs",
-    model: str = "gemini-3-pro-image-preview",
+    model: str = "gemini-3.1-flash-image-preview",
     n: int = 1,
 ) -> dict[str, Any]:
     """Generate image(s) from a text prompt, optionally guided by input image(s).
