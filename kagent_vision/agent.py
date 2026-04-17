@@ -48,9 +48,9 @@ Veo3, and interpret American Sign Language.
 
 ## ASL (American Sign Language)
 - **asl_understand(paths, style_hint)** -- Analyze a sequence of images showing
-  ASL signing. Returns:
+  ASL signing. Uses gemini-3-flash-preview for best handshape recognition. Returns:
   - transcript: English translation of the signing
-  - assistant_reply: A helpful response in English
+  - assistant_reply: A helpful response in English (the ASL assistant's name is KAgent Vision)
   - asl_gloss: The response converted to ASL GLOSS notation (uppercase)
 
 # Workflows

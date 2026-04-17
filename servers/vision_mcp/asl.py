@@ -36,17 +36,27 @@ def asl_understand(
     client = genai.Client(api_key=api_key)
 
     instruction = (
-        "You are an expert ASL interpreter.\n"
-        "Analyze ONLY the attached photo sequence (left->right is chronological).\n"
+        "You are an expert ASL interpreter. Your name is **KAgent Vision**.\n"
+        "Analyze ONLY the attached photo sequence (left->right is chronological).\n\n"
         "1) Transcribe the user's signing into clear English (Transcript).\n"
         "2) Write the best assistant reply in English (AssistantReply), helpful and considerate.\n"
+        "   - If the user asks your name, ALWAYS reply that your name is KAgent Vision.\n"
+        "   - If the user introduces themselves, greet them BY the name you read from their "
+        "fingerspelling. Do NOT guess or substitute a different name.\n"
         "3) Convert AssistantReply into ASL GLOSS (ASLGloss) using standard uppercase glossing, "
-        "   and include non-manual markers when relevant (e.g., EYEBROWS-UP or EYEBROWS-DOWN).\n"
-        "IMPORTANT NAME RULES:\n"
-        " - If the user fingerspells their name and you can infer letters, write them as "
-        "hyphenated letters, e.g., J-O-H-N.\n"
+        "   and include non-manual markers when relevant (e.g., EYEBROWS-UP or EYEBROWS-DOWN).\n\n"
+        "CRITICAL FINGERSPELLING RULES:\n"
+        " - Each image in the burst may show ONE handshape = one letter.\n"
+        " - Examine each frame INDIVIDUALLY. Map the hand configuration to the ASL manual "
+        "alphabet: fist+thumb-side = A, flat-four-fingers+tucked-thumb = B, curved-open-hand = C, "
+        "index-up+thumb-touching-middle = D, curled-fingers+thumb-across = E, etc.\n"
+        " - Write recognized letters as hyphenated, e.g., J-O-H-N.\n"
+        " - Do NOT guess a common name. Read only the letters you actually see in the handshapes. "
+        "If the hand shows a J (pinky-up+wrist-twist), then O (fingertips-touching-circle), "
+        "then H (index+middle-out-sideways), then N (index+middle-over-thumb), "
+        "the name is J-O-H-N, not MARK, MICHAEL, or BRIAN.\n"
         " - NEVER output the word 'FINGERSPELL' in the gloss. Use the spelled letters instead.\n"
-        " - If you cannot infer the letters, use '[FINGERSPELLED-NAME]' as a placeholder.\n"
+        " - If you truly cannot identify a letter, write '?' for that position.\n"
         'Return strict JSON: {"Transcript":"...","AssistantReply":"...","ASLGloss":"..."} '
         "with no extra text."
     )
@@ -67,7 +77,7 @@ def asl_understand(
     raw = "{}"
     try:
         res = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-3-flash-preview",
             contents=[gtypes.Content(role="user", parts=parts)],
             config=gtypes.GenerateContentConfig(
                 response_mime_type="application/json"
